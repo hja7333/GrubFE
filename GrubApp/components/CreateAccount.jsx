@@ -1,4 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
+
 export const CreateAccount = ({ navigation }) => {
   return (
     <View>
