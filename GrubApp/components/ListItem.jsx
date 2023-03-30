@@ -1,19 +1,22 @@
 import {
   StyleSheet,
   View,
-  Button,
+  ScrollView,
   TextInput,
   Text,
   Switch,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { Calendar } from "react-native-calendars";
+import * as ImagePicker from "expo-image-picker";
 
 export const ListItem = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
   const [usePresentLocation, setUsePresentLocation] = useState(false);
+  const [image, setImage] = useState(null);
 
   const changeQuantity = (text) => {
     const regEx = /[^0-9]/;
@@ -21,6 +24,25 @@ export const ListItem = ({ navigation }) => {
       setQuantity(text);
     }
   };
+
+  async function takePhoto() {
+    let permissionResult = await ImagePicker.getCameraPermissionsAsync();
+    if (permissionResult.status !== "granted") {
+      permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    }
+    if (permissionResult.status !== "granted") {
+      alert("You must turn on camera permissions to record a video.");
+    } else {
+      ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [3, 4],
+      }).then(({ assets }) => {
+        setImage(assets[0]);
+      });
+    }
+  }
+  console.log(image);
   return (
     <Formik
       initialValues={{
@@ -34,7 +56,14 @@ export const ListItem = ({ navigation }) => {
       }}
     >
       {({ setFieldValue, handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <TouchableOpacity style={styles.pictureViewer} onPress={takePhoto}>
+            {image ? (
+              <Image style={styles.itemPicture} source={image} />
+            ) : (
+              <Text style={styles.pictureText}>Add Picture</Text>
+            )}
+          </TouchableOpacity>
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
@@ -44,7 +73,6 @@ export const ListItem = ({ navigation }) => {
               value={values.name}
             />
           </View>
-
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
@@ -106,7 +134,7 @@ export const ListItem = ({ navigation }) => {
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );
@@ -114,7 +142,6 @@ export const ListItem = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -153,6 +180,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     borderRadius: 20,
+    marginBottom: 40,
     backgroundColor: "#334bd6",
     width: 150,
     height: 45,
@@ -171,5 +199,24 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontWeight: "bold",
+  },
+  pictureViewer: {
+    borderRadius: 20,
+    marginTop: 30,
+    marginBottom: 30,
+    width: "50%",
+    aspectRatio: 1,
+    borderWidth: 3,
+    borderStyle: "solid",
+    borderColor: "#334bd6",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pictureText: {
+    color: "#334bd6",
+  },
+  itemPicture: {
+    flex: 1,
+    resizeMode: "contain",
   },
 });
