@@ -6,30 +6,51 @@ export const CreateAccount = () => {
     <View>
       <View>
         <Formik
-          initialValues={{ username: "", Address: "", password: "" }}
-          onSubmit={(values) => {}}
+          initialValues={{
+            username: "",
+            password: "",
+            confirmPassword: "",
+            location: "",
+            contact: "",
+          }}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
         >
-          {(props) => (
+          {({ handleChange, handleSubmit, values }) => (
             <View>
               <TextInput
+                value={values.username}
                 placeholder="username"
-                onChangeText={props.handleChange("username")}
+                onChangeText={handleChange("username")}
               />
               <TextInput
-                placeholder="address"
-                onChangeText={props.handleChange("address")}
-              />
-              <TextInput
+                value={values.password}
+                secureTextEntry={true}
                 placeholder="password"
-                onChangeText={props.handleChange("password")}
+                onChangeText={handleChange("password")}
               />
               <TextInput
+                value={values.confirmPassword}
+                secureTextEntry={true}
                 placeholder="confirm password"
-                onChangeText={props.handleChange("confirm password")}
+                onChangeText={handleChange("confirm password")}
               />
-              <Button title="submit" onPress={props.handleSubmit}></Button>
+              <TextInput
+                value={values.location}
+                placeholder="location"
+                onChangeText={handleChange("location")}
+              />
+              <TextInput
+                value={values.contact}
+                placeholder="contact"
+                keyboardType="phone-pad"
+                onChangeText={handleChange("contact")}
+              />
+              <Button title="submit" onPress={handleSubmit}></Button>
             </View>
           )}
+          ;
         </Formik>
       </View>
       <StatusBar style="auto" />
