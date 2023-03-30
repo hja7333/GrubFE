@@ -37,7 +37,11 @@ export const Login = ({ navigation }) => {
       </View>
 
       <View style={styles.loginView}>
-        <Button title="login" color="#334bd6"></Button>
+        <Button
+          title="login"
+          color="#334bd6"
+          onPress={() => navigation.navigate("ListItem")}
+        ></Button>
       </View>
       <View style={styles.createAccount}>
         <Button
