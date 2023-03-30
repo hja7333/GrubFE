@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import {
   StyleSheet,
   Button,
@@ -11,6 +13,22 @@ import {
 export const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(UserContext);
+
+  const login = () => {
+    console.log(username, password, "user/pass");
+    axios
+      .post("https://grub-group-project.onrender.com/api/auth", {
+        username,
+        password,
+      })
+      .then(({ data }) => {
+        setUser(data);
+        navigation.navigate("MapView");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -30,14 +48,14 @@ export const Login = ({ navigation }) => {
           style={styles.TextInput}
           placeholder="Password..."
           secureTextEntry={true}
-          onChangeText={(username) => {
-            setUsername(username);
+          onChangeText={(password) => {
+            setPassword(password);
           }}
         ></TextInput>
       </View>
 
       <View style={styles.loginView}>
-        <Button title="login" color="#334bd6"></Button>
+        <Button title="login" color="#334bd6" onPress={login}></Button>
       </View>
       <View style={styles.createAccount}>
         <Button
@@ -65,7 +83,7 @@ const styles = StyleSheet.create({
   },
   inputView: {
     backgroundColor: "#94d2a9",
-    borderRadius: 30,
+    borderRadius: 20,
     width: "70%",
     height: 45,
     marginBottom: 35,
