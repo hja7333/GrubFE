@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Login } from "./components/Login";
+import { ListItem } from "./components/ListItem";
 import { MapView } from "./components/MapView";
 import { CreateAccount } from "./components/CreateAccount";
 import { UserProvider } from "./contexts/UserContext";
