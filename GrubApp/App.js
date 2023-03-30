@@ -17,7 +17,7 @@ export default function App() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CreateAccount" component={CreateAccount} />
           <Stack.Screen name="MapView" component={MapView} />
-          
+          <Stack.Screen name="ListItem" component={ListItem} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
