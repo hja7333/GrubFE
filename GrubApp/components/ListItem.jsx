@@ -9,9 +9,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Formik } from "formik";
+import * as Yup from "yup";
 import React, { useState } from "react";
 import { Calendar } from "react-native-calendars";
 import * as ImagePicker from "expo-image-picker";
+
+const ItemSchema = Yup.object().shape({
+  name: Yup.string().required("Item name is required!"),
+  expiry_date: Yup.date().required("Expiration date is required"),
+});
 
 export const ListItem = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
@@ -42,7 +48,11 @@ export const ListItem = ({ navigation }) => {
       });
     }
   }
-  console.log(image);
+
+  const submitNewItem = (values) => {
+    console.log(values);
+  };
+
   return (
     <Formik
       initialValues={{
@@ -50,12 +60,17 @@ export const ListItem = ({ navigation }) => {
         description: "",
         expiry_date: "",
       }}
-      onSubmit={(values) => {
-        console.log(values);
-        console.log(usePresentLocation);
-      }}
+      validationSchema={ItemSchema}
+      onSubmit={submitNewItem}
     >
-      {({ setFieldValue, handleChange, handleBlur, handleSubmit, values }) => (
+      {({
+        setFieldValue,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+      }) => (
         <ScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity style={styles.pictureViewer} onPress={takePhoto}>
             {image ? (
@@ -64,7 +79,7 @@ export const ListItem = ({ navigation }) => {
               <Text style={styles.pictureText}>Add Picture</Text>
             )}
           </TouchableOpacity>
-          <View style={styles.inputView}>
+          <View style={errors.name ? styles.inputViewVal : styles.inputView}>
             <TextInput
               style={styles.TextInput}
               placeholder="Item name"
@@ -82,13 +97,21 @@ export const ListItem = ({ navigation }) => {
               value={values.description}
             />
           </View>
-          <Text style={styles.itemLabel}>Expiry date:</Text>
+          <Text
+            style={
+              errors.expiry_date ? styles.validationText : styles.itemLabel
+            }
+          >
+            Expiry date:
+          </Text>
           <Calendar
             onDayPress={(date) => {
               setFieldValue("expiry_date", date.dateString);
             }}
             minDate={new Date().toJSON().slice(0, 10)}
-            markedDates={{ [values.expiry_date]: { selected: true } }}
+            markedDates={{
+              [values.expiry_date]: { selected: true, endingDay: true },
+            }}
             value={values.expiry_date}
           />
           <Text style={styles.itemLabel}>Quantity:</Text>
@@ -122,14 +145,14 @@ export const ListItem = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.locationPicker}>
-            <Text>Current location</Text>
+            <Text>Home location</Text>
             <Switch
               value={usePresentLocation}
               onChange={() => {
                 setUsePresentLocation((value) => !value);
               }}
             />
-            <Text>Home location</Text>
+            <Text>Current location</Text>
           </View>
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Submit</Text>
@@ -153,6 +176,17 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 25,
     alignItems: "center",
+  },
+  inputViewVal: {
+    backgroundColor: "#94d2a9",
+    borderRadius: 30,
+    width: "70%",
+    height: 45,
+    marginBottom: 25,
+    alignItems: "center",
+    borderColor: "#d00",
+    borderStyle: "solid",
+    borderWidth: 3,
   },
   TextInput: {
     height: 50,
@@ -218,5 +252,9 @@ const styles = StyleSheet.create({
   itemPicture: {
     flex: 1,
     resizeMode: "contain",
+  },
+  validationText: {
+    color: "#d00",
+    fontWeight: "bold",
   },
 });
