@@ -30,7 +30,7 @@ export const Login = ({ navigation }) => {
       .then(({ data }) => {
         setCheckingCredentials(false);
         setUser(data);
-        navigation.navigate("ListItem");
+        navigation.navigate("MapScreen");
       })
       .catch((err) => {
         setCheckingCredentials(false);

@@ -1,4 +1,6 @@
 import axios from 'axios'; 
+import { UserContext } from './contexts/UserContext';
+import React, { useContext } from "react";
 
 export const getLocationDetails = (location) => {
  return axios.
@@ -16,3 +18,11 @@ export const createUser = (newUser) => {
     })
 }
 
+export const getUser = (username) => {
+    const { user } = useContext(UserContext);
+    return axios.get(`https://grub-group-project.onrender.com/api/users/${username}`, {headers: {Authorization: `Bearer ${user.token}`}}).then((res) => {
+        console.log(res)
+    })
+}
+
+getUser("John34")
