@@ -12,8 +12,8 @@ export const MapView = ({ navigation }) => {
 
   return (
     <View>
-      <Text>User {user.user.username}</Text>
-      <Text>Token {user.token}</Text>
+      <Text>User </Text>
+      <Text>Token </Text>
       <StatusBar style="auto" />
     </View>
   );
