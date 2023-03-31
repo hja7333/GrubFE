@@ -8,25 +8,34 @@ import {
   TextInput,
   View,
   StatusBar,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 export const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [checkingCredentials, setCheckingCredentials] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const { setUser } = useContext(UserContext);
 
   const login = () => {
-    console.log(username, password, "user/pass");
+    setCheckingCredentials(true);
+    setAuthError(null);
     axios
       .post("https://grub-group-project.onrender.com/api/auth", {
         username,
         password,
       })
       .then(({ data }) => {
+        setCheckingCredentials(false);
         setUser(data);
-        navigation.navigate("MapView");
+        navigation.navigate("ListItem");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setCheckingCredentials(false);
+        setAuthError(err);
+      });
   };
 
   return (
@@ -37,6 +46,8 @@ export const Login = ({ navigation }) => {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
+          editable={!checkingCredentials}
+          selectTextOnFocus={!checkingCredentials}
           placeholder="Username..."
           onChangeText={(username) => {
             setUsername(username);
@@ -46,6 +57,8 @@ export const Login = ({ navigation }) => {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
+          editable={!checkingCredentials}
+          selectTextOnFocus={!checkingCredentials}
           placeholder="Password..."
           secureTextEntry={true}
           onChangeText={(password) => {
@@ -53,13 +66,27 @@ export const Login = ({ navigation }) => {
           }}
         ></TextInput>
       </View>
+      {authError ? (
+        <Text style={styles.authFail}>Authentication Failed!</Text>
+      ) : (
+        <Text style={styles.authFail}></Text>
+      )}
+      <TouchableOpacity
+        style={styles.loginButton}
+        disabled={checkingCredentials}
+        onPress={login}
+      >
+        {checkingCredentials ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={{ color: "#fff", fontSize: 17 }}>Login</Text>
+        )}
+      </TouchableOpacity>
 
-      <View style={styles.loginView}>
-        <Button title="login" color="#334bd6" onPress={login}></Button>
-      </View>
       <View style={styles.createAccount}>
         <Button
           title="Create Account"
+          disabled={checkingCredentials}
           onPress={() => navigation.navigate("CreateAccount")}
         ></Button>
       </View>
@@ -95,14 +122,20 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
   },
-  loginView: {
-    borderRadius: 30,
+  loginButton: {
+    borderRadius: 20,
+    marginBottom: 10,
     backgroundColor: "#334bd6",
-    width: "30%",
-    height: 45,
+    width: 100,
+    height: 40,
     alignItems: "center",
+    justifyContent: "center",
   },
   createAccount: {
     marginTop: 30,
+  },
+  authFail: {
+    color: "#f00",
+    marginBottom: 5,
   },
 });
