@@ -1,15 +1,109 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export const NavBar = ({ params }) => {
   const { navigation, route, options, back } = params;
+  const { user, setUser } = useContext(UserContext);
   const atLogin = route.name === "Login";
+  const atSignUp = route.name === "CreateAccount";
+  const atMapView = route.name === "MapView";
+  const atListItem = route.name === "ListItem";
+  const atViewItem = route.name === "ViewItem";
+
   return atLogin ? (
     <View></View>
   ) : (
-    <View>
-      <TouchableOpacity onPress={navigation.goBack}>
-        <Text>Back</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      {atSignUp ? (
+        <TouchableOpacity onPress={navigation.goBack}>
+          <Text style={styles.headerText}>Back</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            setUser(null);
+            navigation.popToTop();
+          }}
+        >
+          <Text style={styles.headerText}>Logout</Text>
+        </TouchableOpacity>
+      )}
+      {!atSignUp && (
+        <TouchableOpacity
+          style={atMapView && styles.buttonSelected}
+          onPress={() => navigation.navigate("MapView")}
+        >
+          <Text
+            style={atMapView ? styles.headerTextSelected : styles.headerText}
+          >
+            Map
+          </Text>
+        </TouchableOpacity>
+      )}
+      {!atSignUp && (
+        <TouchableOpacity
+          style={atListItem && styles.buttonSelected}
+          onPress={() => navigation.navigate("ListItem")}
+        >
+          <Text
+            style={atListItem ? styles.headerTextSelected : styles.headerText}
+          >
+            List an item
+          </Text>
+        </TouchableOpacity>
+      )}
+      {!atSignUp && (
+        <TouchableOpacity
+          style={atViewItem && styles.buttonSelected}
+          onPress={() => navigation.navigate("ViewItem")}
+        >
+          <Text
+            style={atViewItem ? styles.headerTextSelected : styles.headerText}
+          >
+            View item
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    backgroundColor: "#94d2a9",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "space-around",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  headerText: {
+    // fontWeight: "bold",
+  },
+  headerTextSelected: {
+    color: "#fff",
+  },
+  buttonSelected: {
+    borderRadius: 10,
+    padding: 6,
+    backgroundColor: "#334bd6",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+});
