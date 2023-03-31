@@ -10,9 +10,14 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { SelectList } from "react-native-dropdown-select-list";
+import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
 import { Calendar } from "react-native-calendars";
 import * as ImagePicker from "expo-image-picker";
+// const cloudinary = require("cloudinary").v2;
+const config = require("../cloudinaryConfig");
 
 const ItemSchema = Yup.object().shape({
   name: Yup.string().required("Item name is required!"),
@@ -21,8 +26,30 @@ const ItemSchema = Yup.object().shape({
 
 export const ListItem = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
+  const [loadingCategories, setLoadingCategories] = useState(true);
   const [usePresentLocation, setUsePresentLocation] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryIndex, setCategoryIndex] = useState("");
   const [image, setImage] = useState(null);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    setLoadingCategories(true);
+    const headers = { Authorization: `Bearer ${user.token}` };
+    axios
+      .get("https://grub-group-project.onrender.com/api/categories", {
+        headers,
+      })
+      .then(({ data }) => {
+        setCategoryList(
+          data.categories.map((category, index) => {
+            return { key: index + 1, value: category.name };
+          })
+        );
+        setLoadingCategories(false);
+      })
+      .catch(() => navigation.navigate("Login"));
+  }, []);
 
   const changeQuantity = (text) => {
     const regEx = /[^0-9]/;
@@ -50,7 +77,20 @@ export const ListItem = ({ navigation }) => {
   }
 
   const submitNewItem = (values) => {
-    console.log(values);
+    const newItem = { ...values };
+    newItem.quantity = quantity;
+    newItem.category = categoryIndex;
+    newItem.expiry_date = new Date(newItem.expiry_date);
+    // upload image to cloudinary
+    // cloudinary.config(config);
+    // cloudinary.uploader
+    //   .upload(image.uri, { public_id: "test" })
+    //   .then(({ url }) => {
+    //     newItem.item_url = url;
+    //     console.log(url, "<-- cloudinary url");
+    //   })
+    //   .catch((err) => console.log(err));
+    // upload item to BE
   };
 
   return (
@@ -97,6 +137,11 @@ export const ListItem = ({ navigation }) => {
               value={values.description}
             />
           </View>
+          <SelectList
+            setSelected={(val) => setCategoryIndex(val)}
+            data={categoryList}
+            save="value"
+          />
           <Text
             style={
               errors.expiry_date ? styles.validationText : styles.itemLabel
@@ -176,6 +221,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 25,
     alignItems: "center",
+    borderColor: "#94d2a9",
+    borderStyle: "solid",
+    borderWidth: 3,
   },
   inputViewVal: {
     backgroundColor: "#94d2a9",
@@ -256,5 +304,8 @@ const styles = StyleSheet.create({
   validationText: {
     color: "#d00",
     fontWeight: "bold",
+  },
+  selectorStyle: {
+    width: "70%",
   },
 });
