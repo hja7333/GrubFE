@@ -17,7 +17,9 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             header: (params) => <NavBar params={params} />,
-            headerStyle: 80,
+            headerStyle: {
+              height: 80,
+            },
           }}
         >
           <Stack.Screen name="Login" component={Login} />
