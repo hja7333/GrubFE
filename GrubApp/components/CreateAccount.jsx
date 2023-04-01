@@ -31,6 +31,7 @@ export const CreateAccount = (props) => {
   const [isCreated, setIsCreated] = useState(false);
 
   return (
+    <ScrollView style={{backgroundColor: "#fff"}}>
     <Formik
       initialValues={{
         username: "",
@@ -127,6 +128,7 @@ export const CreateAccount = (props) => {
         </View>
       )}
     </Formik>
+    </ScrollView>
   );
 };
 
