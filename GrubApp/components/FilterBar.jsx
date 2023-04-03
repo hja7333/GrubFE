@@ -1,23 +1,32 @@
 import * as Location from "expo-location";
-import { View, StyleSheet, Button, TouchableOpacity, ActivityIndicator, Text } from "react-native";
-import {Dropdown} from "react-native-element-dropdown";
-import {useState} from "react"
+import {
+  View,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  ActivityIndicator,
+  Text,
+} from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
+import { UserContext } from "../contexts/UserContext";
+import { useState, useContext } from "react";
 const distItems = [
-  {value: 100, label: "100m"},
-  {value: 200, label: "200m"},
-  {value: 500, label: "500m"},
-  {value: 1609, label: "1 mile"},
-  {value: 2 * 1609, label: "2 miles"},
-  {value: 3 * 1609, label: "3 miles"},
-  {value: 4 * 1609, label: "4 miles"},
-  {value: 5 * 1609, label: "5 miles"},
-  {value: 16090, label: "10 miles"},
-  {value: 160900, label: "100 miles"}
-]
+  { value: 100, label: "100m" },
+  { value: 200, label: "200m" },
+  { value: 500, label: "500m" },
+  { value: 1609, label: "1 mile" },
+  { value: 2 * 1609, label: "2 miles" },
+  { value: 3 * 1609, label: "3 miles" },
+  { value: 4 * 1609, label: "4 miles" },
+  { value: 5 * 1609, label: "5 miles" },
+  { value: 16090, label: "10 miles" },
+  { value: 160900, label: "100 miles" },
+];
 
-export const FilterBar = ({setRange, setLocation}) => {
+export const FilterBar = ({ setRange, setLocation }) => {
+  const { user } = useContext(UserContext);
   const [locationString, setLocationString] = useState("Home");
-  const [findingLocation, setFindingLocation] = useState(false)
+  const [findingLocation, setFindingLocation] = useState(false);
   const changeLocation = () => {
     if (locationString === "Home") {
       Location.requestForegroundPermissionsAsync()
@@ -39,7 +48,6 @@ export const FilterBar = ({setRange, setLocation}) => {
       setLocationString("Home");
       setLocation(user.user.location.coordinates);
     }
-    
   };
   return (
     <View style={styles.container}>
@@ -54,12 +62,13 @@ export const FilterBar = ({setRange, setLocation}) => {
           <Text style={styles.locateText}>{locationString}</Text>
         )}
       </TouchableOpacity>
-          <Dropdown data={distItems}
-    labelField="label"
-    valueField="value"
-    onChange={(value) => setRange(value.value)}
-    style={styles.dropdown}
-    />
+      <Dropdown
+        data={distItems}
+        labelField="label"
+        valueField="value"
+        onChange={(value) => setRange(value.value)}
+        style={styles.dropdown}
+      />
     </View>
   );
 };
@@ -97,9 +106,9 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "61.8%",
     height: 50,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
-  }
+  },
 });

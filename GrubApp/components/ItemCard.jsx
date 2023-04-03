@@ -23,7 +23,7 @@ export const ItemCard = ({ item, background, home }) => {
     >
       <Image
         source={{ uri: item.item_url, width: 100, height: 100 }}
-        style={styles.itemImage}
+        style={item.distance === 0 ? styles.itemImageYours : styles.itemImage}
       />
       <View style={styles.textBox}>
         <Text style={styles.itemName}>{item.name}</Text>
@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
   itemImage: {
     margin: 10,
     borderRadius: 10,
+  },
+  itemImageYours: {
+    margin: 10,
+    borderRadius: 10,
+    opacity: 0.5,
   },
   textBox: {
     height: "100%",
