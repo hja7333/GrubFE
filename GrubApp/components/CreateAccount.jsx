@@ -5,6 +5,8 @@ import {
   ScrollView,
   Text,
   StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 import { Formik } from "formik";
 import React, { useState } from "react";
@@ -28,7 +30,7 @@ const AccountCreationSchema = Yup.object().shape({
 export const CreateAccount = (props) => {
   const [newUserMessage, setNewUserMessage] = useState("");
   const [isCreated, setIsCreated] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false)
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
       <Formik
@@ -40,9 +42,10 @@ export const CreateAccount = (props) => {
           contact: "",
         }}
         validationSchema={AccountCreationSchema}
+
         onSubmit={(values) => {
           let location = {};
-
+          setIsLoading(true)
           getLocationDetails(values.location)
             .then((res) => {
               location.latitude = res.lat;
@@ -61,6 +64,7 @@ export const CreateAccount = (props) => {
               return createUser(newUser);
             })
             .then((newUser) => {
+              setIsLoading(false)
               setIsCreated(true);
               setNewUserMessage(
                 `Welcome to Grub ${newUser.username}! Your account has been created`
@@ -87,12 +91,12 @@ export const CreateAccount = (props) => {
               </View>
             ) : null}
             <TextInput
-              style={styles.inputView}
+              style={errors.username ? styles.inputViewErr : styles.inputView}
               value={values.username}
               placeholder="username"
               onChangeText={handleChange("username")}
             />
-            {errors.username ? <Text>{errors.username}</Text> : null}
+            {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null}
             <TextInput
               style={errors.password ? styles.inputViewErr : styles.inputView}
               value={values.password}
@@ -100,39 +104,44 @@ export const CreateAccount = (props) => {
               placeholder="password"
               onChangeText={handleChange("password")}
             />
-            {errors.password ? <Text>{errors.password}</Text> : null}
+            {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
             <TextInput
-              style={styles.inputView}
+              style={errors.confirmPassword ? styles.inputViewErr : styles.inputView}
               value={values.confirmPassword}
               secureTextEntry={true}
               placeholder="confirm password"
               onChangeText={handleChange("confirmPassword")}
             />
             {errors.confirmPassword ? (
-              <Text>{errors.confirmPassword}</Text>
+              <Text style={styles.errorText}>{errors.confirmPassword}</Text>
             ) : null}
             <TextInput
-              style={styles.inputView}
+              style={errors.location ? styles.inputViewErr : styles.inputView}
               value={values.location}
               placeholder="address"
               onChangeText={handleChange("location")}
             />
-            {errors.location ? <Text>{errors.location}</Text> : null}
+            {errors.location ? <Text style={styles.errorText}>{errors.location}</Text> : null}
             <TextInput
-              style={styles.inputView}
+              style={errors.contact ? styles.inputViewErr : styles.inputView}
               value={values.contact}
               placeholder="contact"
               keyboardType="phone-pad"
               onChangeText={handleChange("contact")}
             />
-            {errors.contact ? <Text>{errors.contact}</Text> : null}
-            <Button
-              color="#334bd6"
-              style={styles.createBtn}
-              title="submit"
-              disabled={isCreated}
-              onPress={handleSubmit}
-            ></Button>
+            {errors.contact ? <Text style={styles.errorText}>{errors.contact}</Text> : null}
+
+            <TouchableOpacity
+        style={styles.createBtn}
+        disabled={isLoading || isCreated}
+        onPress={handleSubmit}
+      >
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
+        )}
+      </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -141,17 +150,6 @@ export const CreateAccount = (props) => {
 };
 
 const styles = StyleSheet.create({
-  inputViewErr: {
-    backgroundColor: "#94d2a9",
-    borderColor: "red",
-    borderWidth: 2,
-    borderRadius: 20,
-    width: "70%",
-    height: 45,
-    marginBottom: 35,
-    alignItems: "center",
-    paddingLeft: 15,
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -174,11 +172,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 15,
   },
-  createBtn: {
-    borderRadius: 30,
-    backgroundColor: "#334bd6",
-    width: "30%",
+  inputViewErr: {
+    backgroundColor: "#94d2a9",
+    borderColor: "red",
+    borderWidth: 3,
+    borderRadius: 20,
+    width: "70%",
     height: 45,
+    marginBottom: 35,
     alignItems: "center",
+    paddingLeft: 15,
+  },
+  errorText: {
+    // position: "absolute",
+    bottom: 35,
+    color: "red",
+    fontStyle: "bold"
+    // marginTop: 0,
+    // marginBottom: 30, 
+  },
+  createBtn: {
+    borderRadius: 20,
+    marginBottom: 10,
+    backgroundColor: "#334bd6",
+    width: 150,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
