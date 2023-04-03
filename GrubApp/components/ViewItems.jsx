@@ -9,6 +9,8 @@ import axios from "axios";
 export const ViewItems = () => {
   const [itemsLoading, setItemsLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(null);
   const { user } = useContext(UserContext);
 
   const headers = { Authorization: `Bearer ${user.token}` };
@@ -16,15 +18,16 @@ export const ViewItems = () => {
   useEffect(() => {
     setItemsLoading(true);
     axios
-      .get(`https://grub-group-project.onrender.com/api/items`, {
+      .get(`https://grub-group-project.onrender.com/api/items/${user.user.location.coordinates[1]}/${user.user.location.coordinates[0]}?page=${page}&limit=3&range=10000000`, {
         headers,
       })
-      .then(({ data: { items } }) => {
+      .then(({ data: { items, total_items } }) => {
         setItems(items);
+        setTotalItems(total_items);
         setItemsLoading(false);
       })
       .catch((err) => console.log(err, "<---axios error"));
-  }, []);
+  }, [page]);
 
   return (
     <View style={styles.container}>
@@ -39,12 +42,13 @@ export const ViewItems = () => {
                 key={item._id}
                 item={item}
                 background={Boolean(index % 2)}
+                style={styles.itemCard}
               />
             );
           })
         )}
       </ScrollView>
-      <BottomBar />
+      <BottomBar page={page} setPage={setPage} totalItems={totalItems}/>
     </View>
   );
 };
@@ -70,4 +74,9 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
   },
+  itemCard: {
+    flex : 1,
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
