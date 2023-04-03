@@ -1,4 +1,7 @@
-import { View, StyleSheet, Button } from "react-native";
+import * as Location from "expo-location";
+import { View, StyleSheet, Button, TouchableOpacity,
+  ActivityIndicator,
+  Text } from "react-native";
 import {Dropdown} from "react-native-element-dropdown";
 import {useState} from "react"
 const distItems = [
@@ -17,22 +20,49 @@ const distItems = [
 export const FilterBar = ({setRange}) => {
   const [location, setLocation] = useState("Home");
   const changeLocation = () => {
-    if (location === "Home") {
-      setLocation("Current Location")
+    if (locationString === "Home") {
+      Location.requestForegroundPermissionsAsync()
+        .then((status) => {
+          if (status.granted) {
+            setFindingLocation(true);
+            return Location.getCurrentPositionAsync({});
+          }
+        })
+        .then((location) => {
+          setLocation([location.coords.longitude, location.coords.latitude]);
+          setFindingLocation(false);
+          setLocationString("Current Location");
+        })
+        .catch((err) => {
+          setFindingLocation(false);
+        });
     } else {
-      setLocation("Home")
+      setLocationString("Home");
+      setLocation(user.user.location.coordinates);
     }
-  }
-  return <View style={styles.container}>
-    <Button title={location} onPress={changeLocation}/>
-    <Dropdown data={distItems}
+    
+  };
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.locationButton}
+        onPress={changeLocation}
+        disabled={findingLocation}
+      >
+        {findingLocation ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.locateText}>{locationString}</Text>
+        )}
+      </TouchableOpacity>
+          <Dropdown data={distItems}
     labelField="label"
     valueField="value"
     onChange={(value) => setRange(value.value)}
     style={styles.dropdown}
     />
-  </View>;
-};
+    </View>
+  );
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#dff5e6",
     width: "100%",
     height: 40,
+    width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
     shadowColor: "#000",
@@ -50,6 +81,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  locationButton: {
+    borderRadius: 20,
+    marginLeft: 20,
+    backgroundColor: "#334bd6",
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 25,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  locateText: {
+    color: "#fff",
   },
   dropdown: {
     width: "61.8%",

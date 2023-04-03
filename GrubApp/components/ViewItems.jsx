@@ -7,14 +7,18 @@ import { BottomBar } from "./BottomBar";
 import axios from "axios";
 
 export const ViewItems = () => {
+  const { user } = useContext(UserContext);
   const [itemsLoading, setItemsLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
+  const [location, setLocation] = useState(user.user.location.coordinates);
   const [totalItems, setTotalItems] = useState(null);
   const [range, setRange] = useState(5345)
-  const { user } = useContext(UserContext);
+
 
   const headers = { Authorization: `Bearer ${user.token}` };
+
+  const home = location === user.user.location.coordinates;
 
   useEffect(() => {
     setItemsLoading(true);
@@ -30,7 +34,7 @@ export const ViewItems = () => {
         setItemsLoading(false);
       })
       .catch((err) => console.log(err, "<---axios error"));
-  }, [page, range]);
+  }, [page, range, location]);
 
   return (
     <View style={styles.container}>
@@ -44,6 +48,7 @@ export const ViewItems = () => {
               <ItemCard
                 key={item._id}
                 item={item}
+                home={home}
                 background={Boolean(index % 2)}
                 style={styles.itemCard}
               />
@@ -51,7 +56,7 @@ export const ViewItems = () => {
           })
         )}
       </ScrollView>
-      <BottomBar page={page} setPage={setPage} totalItems={totalItems}/>
+      <BottomBar page={page} setPage={setPage} totalItems={totalItems} />
     </View>
   );
 };
@@ -78,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   itemCard: {
-    flex : 1,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
