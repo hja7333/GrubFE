@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Login } from "./components/Login";
 import { ListItem } from "./components/ListItem";
+import { MapScreen } from "./components/MapScreen";
 import { MapView } from "./components/MapView";
 import { NavBar } from "./components/NavBar";
 import { ViewItems } from "./components/ViewItems";
@@ -25,6 +26,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen
             name="CreateAccount"
             component={CreateAccount}

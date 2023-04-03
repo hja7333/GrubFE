@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "GrubApp",
@@ -35,6 +36,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDbifXH9H07fHVrciISF08USUoW2Zg-oXo"
+        }
       }
     },
     "web": {
