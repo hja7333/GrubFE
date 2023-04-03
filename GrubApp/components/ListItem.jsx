@@ -7,10 +7,14 @@ import {
   Switch,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { SelectList } from "react-native-dropdown-select-list";
+import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
 import { Calendar } from "react-native-calendars";
 import * as ImagePicker from "expo-image-picker";
 
@@ -21,8 +25,32 @@ const ItemSchema = Yup.object().shape({
 
 export const ListItem = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [postingItem, setPostingItem] = useState(false);
   const [usePresentLocation, setUsePresentLocation] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryIndex, setCategoryIndex] = useState("");
   const [image, setImage] = useState(null);
+  const { user } = useContext(UserContext);
+
+  const headers = { Authorization: `Bearer ${user.token}` };
+
+  useEffect(() => {
+    setLoadingCategories(true);
+    axios
+      .get("https://grub-group-project.onrender.com/api/categories", {
+        headers,
+      })
+      .then(({ data }) => {
+        setCategoryList(
+          data.categories.map((category, index) => {
+            return { key: index + 1, value: category.name };
+          })
+        );
+        setLoadingCategories(false);
+      })
+      .catch(() => navigation.navigate("Login"));
+  }, []);
 
   const changeQuantity = (text) => {
     const regEx = /[^0-9]/;
@@ -43,14 +71,46 @@ export const ListItem = ({ navigation }) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
         aspect: [3, 4],
+        base64: true,
       }).then(({ assets }) => {
         setImage(assets[0]);
       });
     }
   }
 
+  const cloudinaryUpload = () => {
+    const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dhirydfr8/upload";
+    const base64img = `data:image/jpg;base64,${image.base64}`;
+    const data = {
+      file: base64img,
+      upload_preset: "pbxzcto6",
+    };
+    return axios
+      .post(CLOUDINARY_URL, data)
+      .then((response) => response.data.url);
+  };
+
   const submitNewItem = (values) => {
-    console.log(values);
+    setPostingItem(true);
+    const newItem = { ...values };
+    newItem.quantity = quantity;
+    newItem.category = categoryIndex;
+    newItem.username = user.user.username;
+    newItem.expiry_date = new Date(newItem.expiry_date);
+    cloudinaryUpload().then((image_url) => {
+      newItem.image_url = image_url;
+      return axios
+        .post("https://grub-group-project.onrender.com/api/items", newItem, {
+          headers,
+        })
+        .then((response) => {
+          setPostingItem(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setPostingItem(false);
+        });
+    });
   };
 
   return (
@@ -72,7 +132,11 @@ export const ListItem = ({ navigation }) => {
         errors,
       }) => (
         <ScrollView contentContainerStyle={styles.container}>
-          <TouchableOpacity style={styles.pictureViewer} onPress={takePhoto}>
+          <TouchableOpacity
+            style={styles.pictureViewer}
+            disabled={postingItem}
+            onPress={takePhoto}
+          >
             {image ? (
               <Image style={styles.itemPicture} source={image} />
             ) : (
@@ -81,6 +145,8 @@ export const ListItem = ({ navigation }) => {
           </TouchableOpacity>
           <View style={errors.name ? styles.inputViewVal : styles.inputView}>
             <TextInput
+              editable={!postingItem}
+              selectTextOnFocus={!postingItem}
               style={styles.TextInput}
               placeholder="Item name"
               onChangeText={handleChange("name")}
@@ -90,6 +156,8 @@ export const ListItem = ({ navigation }) => {
           </View>
           <View style={styles.inputView}>
             <TextInput
+              editable={!postingItem}
+              selectTextOnFocus={!postingItem}
               style={styles.TextInput}
               placeholder="Item description"
               onChangeText={handleChange("description")}
@@ -97,6 +165,11 @@ export const ListItem = ({ navigation }) => {
               value={values.description}
             />
           </View>
+          <SelectList
+            setSelected={(val) => setCategoryIndex(val)}
+            data={categoryList}
+            save="value"
+          />
           <Text
             style={
               errors.expiry_date ? styles.validationText : styles.itemLabel
@@ -106,7 +179,9 @@ export const ListItem = ({ navigation }) => {
           </Text>
           <Calendar
             onDayPress={(date) => {
-              setFieldValue("expiry_date", date.dateString);
+              if (!postingItem) {
+                setFieldValue("expiry_date", date.dateString);
+              }
             }}
             minDate={new Date().toJSON().slice(0, 10)}
             markedDates={{
@@ -118,6 +193,7 @@ export const ListItem = ({ navigation }) => {
           <View style={styles.quantityView}>
             <TouchableOpacity
               style={styles.quantityButton}
+              disabled={postingItem}
               onPress={() =>
                 setQuantity((current) => {
                   if (current > 1) {
@@ -131,6 +207,8 @@ export const ListItem = ({ navigation }) => {
             </TouchableOpacity>
 
             <TextInput
+              editable={!postingItem}
+              selectTextOnFocus={!postingItem}
               style={styles.QuantityInput}
               keyboardType="number-pad"
               value={String(quantity)}
@@ -139,6 +217,7 @@ export const ListItem = ({ navigation }) => {
 
             <TouchableOpacity
               style={styles.quantityButton}
+              disabled={postingItem}
               onPress={() => setQuantity((current) => current + 1)}
             >
               <Text style={styles.buttonText}>+</Text>
@@ -148,14 +227,23 @@ export const ListItem = ({ navigation }) => {
             <Text>Home location</Text>
             <Switch
               value={usePresentLocation}
+              disabled={true}
               onChange={() => {
                 setUsePresentLocation((value) => !value);
               }}
             />
             <Text>Current location</Text>
           </View>
-          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Submit</Text>
+          <TouchableOpacity
+            style={styles.submitButton}
+            disabled={postingItem}
+            onPress={handleSubmit}
+          >
+            {postingItem ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.buttonText}>Submit</Text>
+            )}
           </TouchableOpacity>
         </ScrollView>
       )}
@@ -176,6 +264,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 25,
     alignItems: "center",
+    borderColor: "#94d2a9",
+    borderStyle: "solid",
+    borderWidth: 3,
   },
   inputViewVal: {
     backgroundColor: "#94d2a9",
@@ -256,5 +347,8 @@ const styles = StyleSheet.create({
   validationText: {
     color: "#d00",
     fontWeight: "bold",
+  },
+  selectorStyle: {
+    width: "70%",
   },
 });
