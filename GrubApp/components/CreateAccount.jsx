@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Formik } from "formik";
 import React, { useState } from "react";
@@ -28,9 +28,9 @@ const AccountCreationSchema = Yup.object().shape({
 });
 
 export const CreateAccount = (props) => {
-  const [newUserMessage, setNewUserMessage] = useState("");
+  // const [newUserMessage, setNewUserMessage] = useState("");
   const [isCreated, setIsCreated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <ScrollView style={{ backgroundColor: "#fff" }}>
       <Formik
@@ -42,10 +42,9 @@ export const CreateAccount = (props) => {
           contact: "",
         }}
         validationSchema={AccountCreationSchema}
-
         onSubmit={(values) => {
           let location = {};
-          setIsLoading(true)
+          setIsLoading(true);
           getLocationDetails(values.location)
             .then((res) => {
               location.latitude = res.lat;
@@ -64,39 +63,31 @@ export const CreateAccount = (props) => {
               return createUser(newUser);
             })
             .then((newUser) => {
-              setIsLoading(false)
+              setIsLoading(false);
+              // setNewUserMessage(
+              //   `Welcome to Grub ${newUser.username}!\nYour account has been created`
+              // );
               setIsCreated(true);
-              setNewUserMessage(
-                `Welcome to Grub ${newUser.username}! Your account has been created`
-              );
+              props.navigation.navigate("AccountConfirmed", {newUser})
             })
             .catch((err) => {
               console.log(err);
               setIsCreated(false);
             });
-        }}
-      >
+        }}>
         {({ handleChange, handleSubmit, values, errors }) => (
-          <View style={styles.container}>
+         <View style={styles.container}>
             <Text style={styles.header}>Fill in your details below:</Text>
-            {isCreated ? (
-              <View>
-                <AccountConfirmed newUserMessage={newUserMessage} />
-                <Button
-                  color="#334bd6"
-                  style={styles.createBtn}
-                  title="Log in now!"
-                  onPress={() => props.navigation.navigate("Login")}
-                />
-              </View>
-            ) : null}
+
             <TextInput
               style={errors.username ? styles.inputViewErr : styles.inputView}
               value={values.username}
               placeholder="username"
               onChangeText={handleChange("username")}
             />
-            {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null}
+            {errors.username ? (
+              <Text style={styles.errorText}>{errors.username}</Text>
+            ) : null}
             <TextInput
               style={errors.password ? styles.inputViewErr : styles.inputView}
               value={values.password}
@@ -104,9 +95,13 @@ export const CreateAccount = (props) => {
               placeholder="password"
               onChangeText={handleChange("password")}
             />
-            {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+            {errors.password ? (
+              <Text style={styles.errorText}>{errors.password}</Text>
+            ) : null}
             <TextInput
-              style={errors.confirmPassword ? styles.inputViewErr : styles.inputView}
+              style={
+                errors.confirmPassword ? styles.inputViewErr : styles.inputView
+              }
               value={values.confirmPassword}
               secureTextEntry={true}
               placeholder="confirm password"
@@ -121,7 +116,9 @@ export const CreateAccount = (props) => {
               placeholder="address"
               onChangeText={handleChange("location")}
             />
-            {errors.location ? <Text style={styles.errorText}>{errors.location}</Text> : null}
+            {errors.location ? (
+              <Text style={styles.errorText}>{errors.location}</Text>
+            ) : null}
             <TextInput
               style={errors.contact ? styles.inputViewErr : styles.inputView}
               value={values.contact}
@@ -129,19 +126,22 @@ export const CreateAccount = (props) => {
               keyboardType="phone-pad"
               onChangeText={handleChange("contact")}
             />
-            {errors.contact ? <Text style={styles.errorText}>{errors.contact}</Text> : null}
+            {errors.contact ? (
+              <Text style={styles.errorText}>{errors.contact}</Text>
+            ) : null}
 
             <TouchableOpacity
-        style={styles.createBtn}
-        disabled={isLoading || isCreated}
-        onPress={handleSubmit}
-      >
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
-        )}
-      </TouchableOpacity>
+              style={styles.createBtn}
+              disabled={isLoading || isCreated}
+              onPress={handleSubmit}>
+              {isLoading ? (
+                <ActivityIndicator />
+              ) : (
+                <Text style={{ color: "#fff", fontSize: 17 }}>
+                  Create account
+                </Text>
+              )}
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
     // position: "absolute",
     bottom: 35,
     color: "red",
-    fontStyle: "bold"
+    fontStyle: "italic",
     // marginTop: 0,
-    // marginBottom: 30, 
+    // marginBottom: 30,
   },
   createBtn: {
     borderRadius: 20,

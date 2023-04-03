@@ -8,6 +8,7 @@ import { NavBar } from "./components/NavBar";
 import { ViewItem } from "./components/ViewItem";
 import { CreateAccount } from "./components/CreateAccount";
 import { UserProvider } from "./contexts/UserContext";
+import { AccountConfirmed } from "./components/AccountConfirmed";
 import React, { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="AccountConfirmed" component={AccountConfirmed}/>
           <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen
             name="CreateAccount"
