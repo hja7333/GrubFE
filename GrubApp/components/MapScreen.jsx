@@ -38,7 +38,6 @@ export const MapScreen = ({ navigation }) => {
   }
 
   useEffect(() => {  
-    console.log(region, "<< Region")
     fetchLocalItems(user.token, region.latitude, region.longitude)
       .then((itemsResponse) => {
         setItems(itemsResponse);

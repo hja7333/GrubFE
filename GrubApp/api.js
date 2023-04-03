@@ -46,7 +46,6 @@ export const fetchLocalItems = (token, lat, long) => {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then(({ data }) => {
-      console.log(data, "<<<<data response from the api")
       return data.items;
     });
 };
