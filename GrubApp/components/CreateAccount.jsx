@@ -70,7 +70,8 @@ export const CreateAccount = (props) => {
               console.log(err);
               setIsCreated(false);
             });
-        }}>
+        }}
+      >
         {({ handleChange, handleSubmit, values, errors }) => (
           <View style={styles.container}>
             <Text style={styles.header}>Fill in your details below:</Text>
@@ -93,7 +94,7 @@ export const CreateAccount = (props) => {
             />
             {errors.username ? <Text>{errors.username}</Text> : null}
             <TextInput
-              style={styles.inputView}
+              style={errors.password ? styles.inputViewErr : styles.inputView}
               value={values.password}
               secureTextEntry={true}
               placeholder="password"
@@ -130,7 +131,8 @@ export const CreateAccount = (props) => {
               style={styles.createBtn}
               title="submit"
               disabled={isCreated}
-              onPress={handleSubmit}></Button>
+              onPress={handleSubmit}
+            ></Button>
           </View>
         )}
       </Formik>
@@ -139,6 +141,17 @@ export const CreateAccount = (props) => {
 };
 
 const styles = StyleSheet.create({
+  inputViewErr: {
+    backgroundColor: "#94d2a9",
+    borderColor: "red",
+    borderWidth: 2,
+    borderRadius: 20,
+    width: "70%",
+    height: 45,
+    marginBottom: 35,
+    alignItems: "center",
+    paddingLeft: 15,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
