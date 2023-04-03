@@ -9,7 +9,7 @@ export const NavBar = ({ params }) => {
   const atSignUp = route.name === "CreateAccount";
   const atMapView = route.name === "MapView";
   const atListItem = route.name === "ListItem";
-  const atViewItem = route.name === "ViewItem";
+  const atViewItem = route.name === "ViewItems";
 
   return atLogin ? (
     <View></View>
@@ -56,12 +56,12 @@ export const NavBar = ({ params }) => {
       {!atSignUp && (
         <TouchableOpacity
           style={atViewItem && styles.buttonSelected}
-          onPress={() => navigation.navigate("ViewItem")}
+          onPress={() => navigation.navigate("ViewItems")}
         >
           <Text
             style={atViewItem ? styles.headerTextSelected : styles.headerText}
           >
-            View item
+            Items
           </Text>
         </TouchableOpacity>
       )}
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
 });

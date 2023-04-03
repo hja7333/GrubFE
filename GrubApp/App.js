@@ -4,7 +4,7 @@ import { Login } from "./components/Login";
 import { ListItem } from "./components/ListItem";
 import { MapView } from "./components/MapView";
 import { NavBar } from "./components/NavBar";
-import { ViewItem } from "./components/ViewItem";
+import { ViewItems } from "./components/ViewItems";
 import { CreateAccount } from "./components/CreateAccount";
 import { UserProvider } from "./contexts/UserContext";
 import React, { useEffect } from "react";
@@ -32,7 +32,7 @@ export default function App() {
           />
           <Stack.Screen name="MapView" component={MapView} />
           <Stack.Screen name="ListItem" component={ListItem} />
-          <Stack.Screen name="ViewItem" component={ViewItem} />
+          <Stack.Screen name="ViewItems" component={ViewItems} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
