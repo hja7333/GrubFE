@@ -1,14 +1,16 @@
 import axios from "axios";
+const {GOOGLE_API_KEY} = require("./googleMapsAPIkey")
+
 
 export const getLocationDetails = (location) => {
   return axios
     .get("https://maps.googleapis.com/maps/api/geocode/json", {
       params: {
         address: location,
-        key: "AIzaSyDbifXH9H07fHVrciISF08USUoW2Zg-oXo",
+        key: GOOGLE_API_KEY,
       },
     })
-    .then(({ data: { results } }) => {
+    .then(({data: { results } }) => {
       return results[0].geometry.location;
     });
 };
@@ -35,13 +37,16 @@ export const getUser = (user) => {
     });
 };
 
-export const fetchAllItems = (token) => {
+
+
+export const fetchLocalItems = (token, lat, long) => {
+  
   return axios
-    .get("https://grub-group-project.onrender.com/api/items", {
+    .get(`https://grub-group-project.onrender.com/api/items/${lat}/${long}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then(({ data }) => {
-      const { items } = data;
-      return items;
+      console.log(data, "<<<<data response from the api")
+      return data.items;
     });
 };

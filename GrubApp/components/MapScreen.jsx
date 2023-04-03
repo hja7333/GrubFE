@@ -3,22 +3,29 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { fetchAllItems, getLocationDetails, getUser } from "../api";
+import { fetchLocalItems, getLocationDetails, getUser } from "../api";
 import { ItemMarker } from "./ItemMarker";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from 'expo-location';
+const {GOOGLE_API_KEY} = require("../googleMapsAPIkey")
 
 
 export const MapScreen = ({ navigation }) => {
   const { user } = useContext(UserContext);
-  const [region, setRegion] = useState({});
+  const [region, setRegion] = useState({
+    latitude: user.user.location.coordinates[1],
+    longitude: user.user.location.coordinates[0],
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+
   const [items, setItems] = useState([]);
+
 
   AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
     console.log(user)
   );
-
-  console.log(region)
 
   const handleUserLocation = () => {
     Location.requestForegroundPermissionsAsync().then((permissionResponse) => {
@@ -30,21 +37,17 @@ export const MapScreen = ({ navigation }) => {
     }).catch((err) => console.log(err))
   }
 
-  useEffect(() => {
-    getUser(user).then((responseUser) => {
-      setRegion({
-        latitude: responseUser.location.latitude,
-        longitude: responseUser.location.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    });
-    fetchAllItems(user.token)
+  useEffect(() => {  
+    console.log(region, "<< Region")
+    fetchLocalItems(user.token, region.latitude, region.longitude)
       .then((itemsResponse) => {
         setItems(itemsResponse);
       })
-      .catch(() => navigation.navigate("Login"));
-  }, [user]);
+      .catch((err) => {
+        console.log(err)
+         navigation.navigate("Login");
+      })
+  }, [region, user]);
 
 
   return (
@@ -56,9 +59,9 @@ export const MapScreen = ({ navigation }) => {
           zoomControlEnabled={true}
           zoomEnabled={true}
           style={styles.map}>
-           {/* {items.map((item) => {
+           {items.map((item) => {
             return <ItemMarker key={item._id} item={item} />;
-          })}  */}
+          })} 
         </MapView>
         <View style={styles.searchContainer}>
           <GooglePlacesAutocomplete
@@ -76,7 +79,7 @@ export const MapScreen = ({ navigation }) => {
               });
             }}
             query={{
-              key: "AIzaSyDbifXH9H07fHVrciISF08USUoW2Zg-oXo",
+              key: GOOGLE_API_KEY,
               language: "en",
             }}
           />
@@ -87,8 +90,6 @@ export const MapScreen = ({ navigation }) => {
           <Text style={{ color: "#fff", fontSize: 12 }}>Current location</Text>
       </TouchableOpacity></View>
         </View>     
-       
-        
         <StatusBar style="auto" />
       </View>
     </View>
