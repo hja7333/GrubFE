@@ -7,7 +7,7 @@ export const NavBar = ({ params }) => {
   const { user, setUser } = useContext(UserContext);
   const atLogin = route.name === "Login";
   const atSignUp = route.name === "CreateAccount";
-  const atMapView = route.name === "MapView";
+  const atMapView = route.name === "MapScreen";
   const atListItem = route.name === "ListItem";
   const atViewItem = route.name === "ViewItem";
 
@@ -32,7 +32,7 @@ export const NavBar = ({ params }) => {
       {!atSignUp && (
         <TouchableOpacity
           style={atMapView && styles.buttonSelected}
-          onPress={() => navigation.navigate("MapView")}
+          onPress={() => navigation.navigate("MapScreen")}
         >
           <Text
             style={atMapView ? styles.headerTextSelected : styles.headerText}

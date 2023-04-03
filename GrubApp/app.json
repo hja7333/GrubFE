@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "GrubApp",
@@ -19,6 +20,12 @@
           "photosPermission": "The app accesses your photos to allow you to select a picture to use.",
           "cameraPermission": "The app lets you use your camera to upload images."
         }
+      ],
+      [
+        "expo-location",
+        {
+          "isAndroidBackgroundLocationEnabled": "This app uses your location to show you the available items or to list an item in your area"
+        }
       ]
     ],
     "ios": {
@@ -28,6 +35,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDbifXH9H07fHVrciISF08USUoW2Zg-oXo"
+        }
       }
     },
     "web": {
