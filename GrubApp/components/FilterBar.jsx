@@ -1,7 +1,5 @@
 import * as Location from "expo-location";
-import { View, StyleSheet, Button, TouchableOpacity,
-  ActivityIndicator,
-  Text } from "react-native";
+import { View, StyleSheet, Button, TouchableOpacity, ActivityIndicator, Text } from "react-native";
 import {Dropdown} from "react-native-element-dropdown";
 import {useState} from "react"
 const distItems = [
@@ -17,8 +15,9 @@ const distItems = [
   {value: 160900, label: "100 miles"}
 ]
 
-export const FilterBar = ({setRange}) => {
-  const [location, setLocation] = useState("Home");
+export const FilterBar = ({setRange, setLocation}) => {
+  const [locationString, setLocationString] = useState("Home");
+  const [findingLocation, setFindingLocation] = useState(false)
   const changeLocation = () => {
     if (locationString === "Home") {
       Location.requestForegroundPermissionsAsync()
@@ -63,7 +62,7 @@ export const FilterBar = ({setRange}) => {
     />
     </View>
   );
-
+};
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",

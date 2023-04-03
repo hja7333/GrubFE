@@ -38,7 +38,7 @@ export const ViewItems = () => {
 
   return (
     <View style={styles.container}>
-      <FilterBar style={styles.filterBar} setRange={setRange}/>
+      <FilterBar style={styles.filterBar} setRange={setRange} setLocation={setLocation}/>
       <ScrollView style={styles.scrollContainer}>
         {itemsLoading ? (
           <Text>Loading items</Text>
