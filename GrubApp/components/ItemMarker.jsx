@@ -30,7 +30,9 @@ export const ItemMarker = ({ item }) => {
               <View style={styles.textContainer}>
                 <Text style={styles.itemName}>Item: {item.name}</Text>
                 <Text style={styles.itemDescription}>Desctiption: {item.description}</Text>
-                <Text style={styles.itemContact}>contact: {user.user.contact}</Text>
+                <Text style={styles.itemContact}>contact: 
+                {/* {item.user.contact} */}
+                </Text>
               </View>
           
           </View>
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
   width: 180,
   flexDirection: "column",
   alignSelf: "flex-start",
-  backgroundColor: "#c9ffe5",
+  backgroundColor: "#ffff",
   borderRadius: 6,
   borderColor: "black",
   borderWidth: 0.7,

@@ -57,6 +57,9 @@ export const MapScreen = ({ navigation }) => {
           provider={PROVIDER_GOOGLE}
           zoomControlEnabled={true}
           zoomEnabled={true}
+          onRegionChangeComplete={(selectedRegion)=> {
+             setRegion(selectedRegion)
+          }}
           style={styles.map}>
            {items.map((item) => {
             return <ItemMarker key={item._id} item={item} />;
