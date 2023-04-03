@@ -11,27 +11,30 @@ export const ViewItems = () => {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [totalItems, setTotalItems] = useState(null);
+  const [range, setRange] = useState(5345)
   const { user } = useContext(UserContext);
 
   const headers = { Authorization: `Bearer ${user.token}` };
 
   useEffect(() => {
     setItemsLoading(true);
+    console.log(range);
     axios
-      .get(`https://grub-group-project.onrender.com/api/items/${user.user.location.coordinates[1]}/${user.user.location.coordinates[0]}?page=${page}&limit=3&range=10000000`, {
+      .get(`https://grub-group-project.onrender.com/api/items/${user.user.location.coordinates[1]}/${user.user.location.coordinates[0]}?page=${page}&limit=3&range=${range}`, {
         headers,
       })
       .then(({ data: { items, total_items } }) => {
+        console.log(total_items)
         setItems(items);
         setTotalItems(total_items);
         setItemsLoading(false);
       })
       .catch((err) => console.log(err, "<---axios error"));
-  }, [page]);
+  }, [page, range]);
 
   return (
     <View style={styles.container}>
-      <FilterBar />
+      <FilterBar style={styles.filterBar} setRange={setRange}/>
       <ScrollView style={styles.scrollContainer}>
         {itemsLoading ? (
           <Text>Loading items</Text>
@@ -78,5 +81,8 @@ const styles = StyleSheet.create({
     flex : 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  filterBar: {
+    width: "100%"
   }
 });

@@ -1,21 +1,20 @@
 import { View, StyleSheet, Button } from "react-native";
-import {SelectList} from "react-native-dropdown-select-list";
+import {Dropdown} from "react-native-element-dropdown";
 import {useState} from "react"
 const distItems = [
-  {key: 1, value: 100, name: "100m"},
-  {key: 2, value: 200, name: "200m"},
-  {key: 3, value: 500, name: "500m"},
-  {key: 4, value: 1069, name: "1 mile"},
-  {key: 5, value: 2 * 1069, name: "2 miles"},
-  {key: 6, value: 3 * 1069, name: "3 miles"},
-  {key: 7, value: 4 * 1069, name: "4 miles"},
-  {key: 8, value: 5 * 1069, name: "5 miles"},
-  {key: 9, value: 10690, name: "10 miles"},
-  {key: 10, value: 106900, name: "100 miles"}
+  {value: 100, label: "100m"},
+  {value: 200, label: "200m"},
+  {value: 500, label: "500m"},
+  {value: 1609, label: "1 mile"},
+  {value: 2 * 1609, label: "2 miles"},
+  {value: 3 * 1609, label: "3 miles"},
+  {value: 4 * 1609, label: "4 miles"},
+  {value: 5 * 1609, label: "5 miles"},
+  {value: 16090, label: "10 miles"},
+  {value: 160900, label: "100 miles"}
 ]
 
-export const FilterBar = () => {
-  const [range, setRange] = useState(5345)
+export const FilterBar = ({setRange}) => {
   const [location, setLocation] = useState("Home");
   const changeLocation = () => {
     if (location === "Home") {
@@ -26,7 +25,12 @@ export const FilterBar = () => {
   }
   return <View style={styles.container}>
     <Button title={location} onPress={changeLocation}/>
-    <SelectList setSelect={(val) => setRange(val)} data={distItems} save={"value"}/>
+    <Dropdown data={distItems}
+    labelField="label"
+    valueField="value"
+    onChange={(value) => setRange(value.value)}
+    style={styles.dropdown}
+    />
   </View>;
 };
 
@@ -34,6 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: "#dff5e6",
+    width: "100%",
     height: 40,
     alignItems: "center",
     justifyContent: "space-between",
@@ -46,4 +51,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  dropdown: {
+    width: "61.8%",
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  }
 });
