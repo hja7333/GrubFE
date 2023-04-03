@@ -1,7 +1,6 @@
 import axios from "axios";
 const {GOOGLE_API_KEY} = require("./googleMapsAPIkey")
 
-
 export const getLocationDetails = (location) => {
   return axios
     .get("https://maps.googleapis.com/maps/api/geocode/json", {
@@ -37,10 +36,7 @@ export const getUser = (user) => {
     });
 };
 
-
-
 export const fetchLocalItems = (token, lat, long) => {
-  
   return axios
     .get(`https://grub-group-project.onrender.com/api/items/${lat}/${long}`, {
       headers: { Authorization: `Bearer ${token}` },
