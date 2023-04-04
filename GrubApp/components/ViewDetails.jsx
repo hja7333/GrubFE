@@ -17,6 +17,7 @@ export const ViewDetails = ({ navigation, route }) => {
   const { id } = route.params;
   const headers = { Authorization: `Bearer ${user.token}` };
 
+
   useEffect(() => {
     setLoadingDetails(true);
     axios
@@ -106,11 +107,51 @@ export const ViewDetails = ({ navigation, route }) => {
         </TouchableOpacity>
       )}
 
+      <TouchableOpacity
+        style={styles.returnBtn}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={{ color: "white", textAlign: "center" }}>
+          Previous page
+        </Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+
+  returnBtn: {
+    top: 10,
+    backgroundColor: "#680A20",
+    width: 170,
+    borderRadius: 15,
+    padding: 5,
+  },
+  textContainer: {
+    paddingTop: 20,
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    // rowGap: 4000,
+  },
+  descriptionText: {
+    textSize: 200,
+    marginLeft: 50,
+    marginRight: 50,
+    textAlign: "center",
+  },
+  container: {
+    paddingTop: 20,
+
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "#def9ef",
+
+
+// James' code
   container: {
     flexDirection: "column",
     width: "100%",
@@ -164,5 +205,6 @@ const styles = StyleSheet.create({
     height: 30,
     alignItems: "center",
     justifyContent: "center",
+
   },
 });
