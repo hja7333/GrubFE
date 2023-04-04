@@ -60,7 +60,7 @@ export const ViewItems = ({ navigation }) => {
             );
           })
         )}
-      </ScrollView>
+      </ScrollView> 
       <BottomBar page={page} setPage={setPage} totalItems={totalItems} />
     </View>
   );
@@ -95,4 +95,5 @@ const styles = StyleSheet.create({
   filterBar: {
     width: "100%",
   },
+ 
 });

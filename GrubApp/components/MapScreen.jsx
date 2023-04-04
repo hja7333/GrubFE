@@ -72,7 +72,7 @@ export const MapScreen = ({ navigation }) => {
           }}
           style={styles.map}>
           { items.length > 0 ? items.map((item) => {
-            return <ItemMarker key={item._id} item={item} />;
+            return <ItemMarker key={item._id} item={item} navigation={navigation}/>;
           }) : null }
         </MapView>
         <View style={styles.searchContainer}>
