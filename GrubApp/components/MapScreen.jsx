@@ -23,8 +23,10 @@ export const MapScreen = ({ navigation }) => {
     latitudeDelta: 0.03,
     longitudeDelta: 0.06,
   });
+
   const [items, setItems] = useState([]);
  
+
   AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
     console.log(user)
   );
@@ -45,7 +47,7 @@ export const MapScreen = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
 
- 
+
   useEffect(() => {
     fetchLocalItems(user.token, region.latitude, region.longitude)
       .then((itemsResponse) => {
@@ -57,7 +59,6 @@ export const MapScreen = ({ navigation }) => {
       });
   }, [region, user]);
 
-
   return (
     <View>
       <View style={styles.mapContainer}>
@@ -66,6 +67,7 @@ export const MapScreen = ({ navigation }) => {
           provider={PROVIDER_GOOGLE}
           zoomControlEnabled={true}
           zoomEnabled={true}
+
           moveOnMarkerPress={false}
           onRegionChangeComplete={(selectedRegion) => {
             setRegion(selectedRegion);
@@ -98,6 +100,7 @@ export const MapScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               style={styles.userLocationBtn}
+
               onPress={handleUserLocation}>
               <Text style={{ position: "absolute", color:"#fff", fontSize: 12 }}>
                 Current location
@@ -123,10 +126,13 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     position: "absolute",
+
+
     top: 5,
     width: "97%",
     alignSelf: "center",
     backgroundColor: "white",
+
     elevation: 3,
     padding: 4,
     paddingBottom: 1,
@@ -136,9 +142,10 @@ const styles = StyleSheet.create({
     top: 4,
     position: "absolute",
     marginTop: 3.5,
+
     padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#334bd6",
+    borderRadius: 15,
+    backgroundColor: "#680A20",
     width: 120,
     height: 20,
     alignItems: "center",

@@ -13,9 +13,10 @@ export const AccountConfirmed = ({ route, navigation }) => {
         {`Welcome to Grub ${newUser.username}!\nYour account has been created`}
       </Text>
       <TouchableOpacity
-        color="#334bd6"
+        color="#680A20"
         style={styles.createBtn}
-        onPress={() => navigation.navigate("Login", {newUser})}>
+        onPress={() => navigation.navigate("Login")}
+      >
         <Text style={{ color: "#fff", fontSize: 17 }}>Log in now!</Text>
       </TouchableOpacity>
     </View>
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 18,
     color: "#680A20",
-    //#680A20
     textAlign: "center",
     fontWeight: "bold",
     margin: 1,

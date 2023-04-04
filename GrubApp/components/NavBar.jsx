@@ -72,7 +72,7 @@ export const NavBar = ({ params }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     height: 40,
     alignItems: "center",
     justifyContent: "space-around",
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   headerText: {
-    // fontWeight: "bold",
+    fontWeight: "bold",
   },
   headerTextSelected: {
     color: "#fff",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   buttonSelected: {
     borderRadius: 10,
     padding: 6,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
