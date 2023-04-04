@@ -4,6 +4,7 @@ import {
   ScrollView,
   SafeAreaView,
   Text,
+  Image,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
@@ -34,7 +35,7 @@ export const CreateAccount = (props) => {
   const [isCreated, setIsCreated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   return (
-    // <SafeAreaView>
+    <SafeAreaView>
       
     <ScrollView style={{ backgroundColor: "white", flexDirection: "column" }}
    nestedScrollEnabled={true}
@@ -82,8 +83,12 @@ export const CreateAccount = (props) => {
           }}>
           {({ handleChange, handleSubmit, values, errors, setFieldValue }) => (
             <View style={styles.container}>
-              <Text style={styles.header}>Fill in your details below:</Text>
-
+              
+              <Image
+          source={require("../assets/logo_transparent.png")}
+          style={styles.logoImage}
+        />
+        <Text style={styles.header}>Create your account</Text>
               <TextInput
                 style={errors.username ? styles.inputViewErr : styles.inputView}
                 value={values.username}
@@ -183,23 +188,30 @@ export const CreateAccount = (props) => {
         </Formik>
   </ScrollView>
  
-    // {/* </SafeAreaView> */}
+    </SafeAreaView> 
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    top: 20,
     backgroundColor: "#fff",
     alignItems: "center",
-    // justifyContent: "center",
+    marginBottom: 40
   },
   header: {
-    color: "#680A20",
+    width: "80%",
+    color: "#9c0444",
     fontWeight: "bold",
-    fontSize: 35,
+    fontSize: 28,
     marginBottom: 30,
-    marginVertical: 20,
+    textAlign: "center"
+  },
+  logoImage: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 220,
+    width: 400,
   },
   inputView: {
     backgroundColor: "#ECC763",
@@ -249,7 +261,7 @@ const styles = StyleSheet.create({
     top: 20,
     borderRadius: 20,
     marginBottom: 40,
-    backgroundColor: "#680A20",
+    backgroundColor: "#9c0444",
     width: 150,
     height: 40,
     alignItems: "center",

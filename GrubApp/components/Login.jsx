@@ -14,17 +14,12 @@ import {
 } from "react-native";
 
 export const Login = ({ navigation, route}) => {
-  // const {params} = route;
-  // const {newUser} = route ? params : null;
-  // console.log(newUser)
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checkingCredentials, setCheckingCredentials] = useState(false);
   const [authError, setAuthError] = useState(null);
   const { setUser } = useContext(UserContext);
-  // const [newUsername, setNewUsername] = useState("")
-  
 
 
   const login = () => {
@@ -62,15 +57,11 @@ export const Login = ({ navigation, route}) => {
           selectTextOnFocus={!checkingCredentials}
           placeholder="Username..."
 
-  //         {routeparams ? 
-  //   setNewUsername(route.params.newUsername) : null
-  // }
 
   onChangeText={(username) => {
             setUsername(username);
           }}
         >
-          {/* <Text>{newUsername}</Text> */}
         </TextInput>
       </View>
       <View style={styles.inputView}>
