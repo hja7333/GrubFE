@@ -12,12 +12,19 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-export const Login = ({ navigation }) => {
+export const Login = ({ navigation, route}) => {
+  // const {params} = route;
+  // const {newUser} = route ? params : null;
+  // console.log(newUser)
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checkingCredentials, setCheckingCredentials] = useState(false);
   const [authError, setAuthError] = useState(null);
   const { setUser } = useContext(UserContext);
+  // const [newUsername, setNewUsername] = useState("")
+  
+
 
   const login = () => {
     setCheckingCredentials(true);
@@ -49,10 +56,17 @@ export const Login = ({ navigation }) => {
           editable={!checkingCredentials}
           selectTextOnFocus={!checkingCredentials}
           placeholder="Username..."
-          onChangeText={(username) => {
+
+  //         {routeparams ? 
+  //   setNewUsername(route.params.newUsername) : null
+  // }
+
+  onChangeText={(username) => {
             setUsername(username);
           }}
-        ></TextInput>
+        >
+          {/* <Text>{newUsername}</Text> */}
+        </TextInput>
       </View>
       <View style={styles.inputView}>
         <TextInput

@@ -11,6 +11,7 @@ export const ItemMarker = ({ item }) => {
     <View>
       <Marker
         title={item.name}
+        onPress={(e) => e.stopPropagation()}
         coordinate={{
           latitude: item.location.coordinates[1],
           longitude: item.location.coordinates[0],
@@ -29,12 +30,9 @@ export const ItemMarker = ({ item }) => {
               
               <View style={styles.textContainer}>
                 <Text style={styles.itemName}>Item: {item.name}</Text>
-                <Text style={styles.itemDescription}>Desctiption: {item.description}</Text>
-                <Text style={styles.itemContact}>contact: 
-                {/* {item.user.contact} */}
-                </Text>
+                <Text numberOfLines={3} style={styles.itemDescription}>{item.description}</Text>
+                <Text style={styles.itemContact}>contact: {item.user.contact}</Text>
               </View>
-          
           </View>
           </Callout>
       </Marker>
@@ -47,24 +45,24 @@ const styles = StyleSheet.create({
   width: 180,
   flexDirection: "column",
   alignSelf: "flex-start",
-  backgroundColor: "#ffff",
+  backgroundColor: "#FFFFFF",
   borderRadius: 6,
   borderColor: "black",
-  borderWidth: 0.7,
+  borderWidth: 0.5,
   padding: 10,
  },
  textContainer: {
   
  },
  itemName: {
-  borderColor: "black",
+  borderColor: "#680A20",
   borderBottomWidth: 0.5,
   marginBottom: 3,
   marginTop: 2, 
   paddingBottom: 1,
  },
  itemDescription: {
-  borderColor: "black",
+  borderColor: "#680A20",
   borderBottomWidth: 0.5,
   marginBottom: 3,
   marginTop: 2, 
