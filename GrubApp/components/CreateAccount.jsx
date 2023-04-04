@@ -63,17 +63,18 @@ export const CreateAccount = (props) => {
             })
             .then((newUser) => {
               setIsLoading(false);
-    
+
               setIsCreated(true);
-              props.navigation.navigate("AccountConfirmed", {newUser})
+              props.navigation.navigate("AccountConfirmed", { newUser });
             })
             .catch((err) => {
               console.log(err);
               setIsCreated(false);
             });
-        }}>
+        }}
+      >
         {({ handleChange, handleSubmit, values, errors }) => (
-         <View style={styles.container}>
+          <View style={styles.container}>
             <Text style={styles.header}>Fill in your details below:</Text>
 
             <TextInput
@@ -130,7 +131,8 @@ export const CreateAccount = (props) => {
             <TouchableOpacity
               style={styles.createBtn}
               disabled={isLoading || isCreated}
-              onPress={handleSubmit}>
+              onPress={handleSubmit}
+            >
               {isLoading ? (
                 <ActivityIndicator />
               ) : (
@@ -154,14 +156,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    color: "#334bd6",
+    color: "#680A20",
     fontWeight: "bold",
     fontSize: 35,
     marginBottom: 30,
     marginVertical: 20,
   },
   inputView: {
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     borderRadius: 20,
     width: "70%",
     height: 45,
@@ -170,7 +172,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   inputViewErr: {
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     borderColor: "red",
     borderWidth: 3,
     borderRadius: 20,
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
   createBtn: {
     borderRadius: 20,
     marginBottom: 10,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     width: 150,
     height: 40,
     alignItems: "center",

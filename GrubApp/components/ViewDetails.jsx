@@ -1,7 +1,8 @@
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { UserContext } from "../contexts/UserContext";
-import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import React, { useState, useContext, useEffect } from "react";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export const ViewDetails = ({ navigation, route }) => {
   const { user } = useContext(UserContext);
@@ -104,6 +105,7 @@ export const ViewDetails = ({ navigation, route }) => {
           <Text>Reserve Item</Text>
         </TouchableOpacity>
       )}
+
     </View>
   );
 };

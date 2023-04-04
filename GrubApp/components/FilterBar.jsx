@@ -75,7 +75,7 @@ export const FilterBar = ({ setRange, setLocation }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#dff5e6",
+    backgroundColor: "#ECC763",
     width: "100%",
     height: 40,
     width: "100%",
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   locationButton: {
     borderRadius: 20,
     marginLeft: 20,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     paddingLeft: 10,
     paddingRight: 10,
     height: 25,

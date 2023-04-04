@@ -61,7 +61,7 @@ export const ViewItems = ({ navigation }) => {
             );
           })
         )}
-      </ScrollView>
+      </ScrollView> 
       <BottomBar page={page} setPage={setPage} totalItems={totalItems} />
     </View>
   );
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: "#def9ef",
   },
   itemCard: {
     flex: 1,
@@ -96,4 +96,5 @@ const styles = StyleSheet.create({
   filterBar: {
     width: "100%",
   },
+ 
 });

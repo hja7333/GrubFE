@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import {
+  Image,
   StyleSheet,
   Button,
   Text,
@@ -12,12 +13,19 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-export const Login = ({ navigation }) => {
+export const Login = ({ navigation, route}) => {
+  // const {params} = route;
+  // const {newUser} = route ? params : null;
+  // console.log(newUser)
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [checkingCredentials, setCheckingCredentials] = useState(false);
   const [authError, setAuthError] = useState(null);
   const { setUser } = useContext(UserContext);
+  // const [newUsername, setNewUsername] = useState("")
+  
+
 
   const login = () => {
     setCheckingCredentials(true);
@@ -42,6 +50,10 @@ export const Login = ({ navigation }) => {
     <View style={styles.container}>
       <View>
         <Text style={styles.header}>Welcome to Grub!</Text>
+        <Image
+          source={require("../assets/logo_transparent.png")}
+          style={styles.logoImage}
+        />
       </View>
       <View style={styles.inputView}>
         <TextInput
@@ -49,10 +61,17 @@ export const Login = ({ navigation }) => {
           editable={!checkingCredentials}
           selectTextOnFocus={!checkingCredentials}
           placeholder="Username..."
-          onChangeText={(username) => {
+
+  //         {routeparams ? 
+  //   setNewUsername(route.params.newUsername) : null
+  // }
+
+  onChangeText={(username) => {
             setUsername(username);
           }}
-        ></TextInput>
+        >
+          {/* <Text>{newUsername}</Text> */}
+        </TextInput>
       </View>
       <View style={styles.inputView}>
         <TextInput
@@ -83,8 +102,10 @@ export const Login = ({ navigation }) => {
         )}
       </TouchableOpacity>
 
-      <View style={styles.createAccount}>
+      <View>
         <Button
+          style={styles.createAccount}
+          color="#680A20"
           title="Create Account"
           disabled={checkingCredentials}
           onPress={() => navigation.navigate("CreateAccount")}
@@ -97,19 +118,20 @@ export const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#def9ef",
     alignItems: "center",
     justifyContent: "center",
   },
   header: {
-    color: "#334bd6",
+    color: "#680A20",
     fontWeight: "bold",
     fontSize: 35,
+
     marginBottom: 40,
     marginTop: 10,
   },
   inputView: {
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     borderRadius: 20,
     width: "70%",
     height: 45,
@@ -123,16 +145,42 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   loginButton: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     borderRadius: 20,
-    marginBottom: 10,
-    backgroundColor: "#334bd6",
+
+    marginBottom: 40,
+    backgroundColor: "#680A20",
     width: 100,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
   },
   createAccount: {
+    borderRadius: 20,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     marginTop: 30,
+  },
+  logoImage: {
+    justifyContent: "center",
+    alignItems: "center",
+
+    height: 300,
+    width: 300,
   },
   authFail: {
     color: "#f00",
