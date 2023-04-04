@@ -36,7 +36,7 @@ export const ItemCard = ({
           ? styles.container2yours
           : styles.container2
       }
-      onPress={() => navigation.navigate("ViewDetails", { item })}
+      onPress={() => navigation.navigate("ViewDetails", { id: item._id })}
     >
       <Image
         source={{ uri: item.item_url, width: 100, height: 100 }}

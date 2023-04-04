@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { UserContext } from "../contexts/UserContext";
 import React, { useState, useEffect, useContext } from "react";
 import { FilterBar } from "./FilterBar";
@@ -16,8 +17,8 @@ export const ViewItems = ({ navigation }) => {
   const [range, setRange] = useState(5345);
 
   const headers = { Authorization: `Bearer ${user.token}` };
-
   const home = location === user.user.location.coordinates;
+  const focus = useIsFocused();
 
   useEffect(() => {
     setItemsLoading(true);
@@ -34,7 +35,7 @@ export const ViewItems = ({ navigation }) => {
         setItemsLoading(false);
       })
       .catch((err) => console.log(err, "<---axios error"));
-  }, [page, range, location]);
+  }, [page, range, location, focus]);
 
   return (
     <View style={styles.container}>
