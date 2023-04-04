@@ -9,6 +9,7 @@ import { ViewItems } from "./components/ViewItems";
 import { CreateAccount } from "./components/CreateAccount";
 import { ViewDetails } from "./components/ViewDetails";
 import { UserProvider } from "./contexts/UserContext";
+import { AccountConfirmed } from "./components/AccountConfirmed";
 import React from "react";
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="AccountConfirmed" component={AccountConfirmed}/>
           <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen
             name="CreateAccount"

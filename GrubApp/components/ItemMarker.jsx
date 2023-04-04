@@ -29,7 +29,7 @@ export const ItemMarker = ({ item }) => {
               
               <View style={styles.textContainer}>
                 <Text style={styles.itemName}>Item: {item.name}</Text>
-                <Text style={styles.itemDescription}>Desctiption: {item.description}</Text>
+                <Text style={styles.itemDescription}>Description: {item.description}</Text>
                 <Text style={styles.itemContact}>contact: {user.user.contact}</Text>
               </View>
           
