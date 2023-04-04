@@ -6,7 +6,7 @@ import { ItemCard } from "./ItemCard";
 import { BottomBar } from "./BottomBar";
 import axios from "axios";
 
-export const ViewItems = () => {
+export const ViewItems = ({ navigation }) => {
   const { user } = useContext(UserContext);
   const [itemsLoading, setItemsLoading] = useState(true);
   const [items, setItems] = useState([]);
@@ -51,6 +51,7 @@ export const ViewItems = () => {
             return (
               <ItemCard
                 key={item._id}
+                navigation={navigation}
                 item={item}
                 home={home}
                 background={Boolean(index % 2)}
@@ -59,7 +60,7 @@ export const ViewItems = () => {
             );
           })
         )}
-      </ScrollView>
+      </ScrollView> 
       <BottomBar page={page} setPage={setPage} totalItems={totalItems} />
     </View>
   );
@@ -94,4 +95,5 @@ const styles = StyleSheet.create({
   filterBar: {
     width: "100%",
   },
+ 
 });

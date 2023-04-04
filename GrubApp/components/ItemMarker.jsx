@@ -4,13 +4,14 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { Svg, Image as ImageSvg } from "react-native-svg";
 
-export const ItemMarker = ({ item }) => {
+export const ItemMarker = ({ item, navigation }) => {
   const { user } = useContext(UserContext);
 
   return (
     <View>
       <Marker
         title={item.name}
+        onCalloutPress={() => navigation.navigate("ViewDetails", {item})} 
         coordinate={{
           latitude: item.location.coordinates[1],
           longitude: item.location.coordinates[0],
@@ -35,8 +36,8 @@ export const ItemMarker = ({ item }) => {
               </Text>
               <Text style={styles.itemDescription}>
                 {" "}
-                <Text style={styles.wordBold}>Description: </Text>
-                {item.description}
+                <Text style={styles.wordBold}>Category: </Text>
+                {item.category.name}
               </Text>
               <Text style={styles.itemContact}>
                 {" "}
@@ -44,6 +45,7 @@ export const ItemMarker = ({ item }) => {
                 {user.user.contact}
               </Text>
             </View>
+
           </View>
         </Callout>
       </Marker>
@@ -89,3 +91,4 @@ const styles = StyleSheet.create({
     // paddingBottom: 1,
   },
 });
+

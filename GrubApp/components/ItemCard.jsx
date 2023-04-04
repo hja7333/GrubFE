@@ -3,8 +3,16 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
 
-export const ItemCard = ({ item, background, home }) => {
+export const ItemCard = ({
+  navigation,
+  item,
+  background,
+  home,
+  setViewDetailItem,
+}) => {
   const { user } = useContext(UserContext);
+
+  const yours = user.user.username === item.user.username;
 
   const formatDistance = (distance) => {
     if (distance < 1609) {
@@ -19,11 +27,20 @@ export const ItemCard = ({ item, background, home }) => {
 
   return (
     <TouchableOpacity
-      style={background ? styles.container1 : styles.container2}
+      style={
+        background
+          ? yours
+            ? styles.container1yours
+            : styles.container1
+          : yours
+          ? styles.container2yours
+          : styles.container2
+      }
+      onPress={() => navigation.navigate("ViewDetails", { item })}
     >
       <Image
         source={{ uri: item.item_url, width: 100, height: 100 }}
-        style={item.distance === 0 ? styles.itemImageYours : styles.itemImage}
+        style={styles.itemImage}
       />
       <View style={styles.textBox}>
         <Text style={styles.itemName}>{item.name}</Text>
@@ -31,7 +48,15 @@ export const ItemCard = ({ item, background, home }) => {
         <Text>
           {formatDistance(item.distance)} from {home ? "your home" : "you"}
         </Text>
-        <Text> </Text>
+        <View
+          style={
+            item.is_available ? styles.availableBox : styles.notAvailableBox
+          }
+        >
+          <Text style={styles.reservationText}>
+            {item.is_available ? "Available" : "Reserved"}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -70,17 +95,35 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  container1yours: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "white",
+    opacity: 0.25,
+  },
+  container2yours: {
+    flexDirection: "row",
+    backgroundColor: "#f0f9ff",
+    flex: 1,
+    alignItems: "center",
+    opacity: 0.25,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   itemImage: {
     margin: 10,
     borderRadius: 10,
   },
-  itemImageYours: {
-    margin: 10,
-    borderRadius: 10,
-    opacity: 0.5,
-  },
   textBox: {
     height: "100%",
+    flex: 1,
     flexDirection: "column",
     justifyContent: "space-around",
     paddingTop: 10,
@@ -89,5 +132,28 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  reservationText: {
+    color: "#fff",
+  },
+  availableBox: {
+    alignSelf: "flex-end",
+    backgroundColor: "#5ba863",
+    marginRight: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 10,
+    width: 100,
+    alignItems: "center",
+  },
+  notAvailableBox: {
+    alignSelf: "flex-end",
+    backgroundColor: "#d45542",
+    marginRight: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 10,
+    width: 100,
+    alignItems: "center",
   },
 });
