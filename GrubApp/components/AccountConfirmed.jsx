@@ -15,7 +15,7 @@ export const AccountConfirmed = ({ route, navigation }) => {
       <TouchableOpacity
         color="#334bd6"
         style={styles.createBtn}
-        onPress={() => navigation.navigate("Login")}>
+        onPress={() => navigation.navigate("Login", {newUser})}>
         <Text style={{ color: "#fff", fontSize: 17 }}>Log in now!</Text>
       </TouchableOpacity>
     </View>

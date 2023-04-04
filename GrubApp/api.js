@@ -39,7 +39,7 @@ export const getUser = (user) => {
 export const fetchLocalItems = (token, lat, long) => {
   return axios
     .get(`https://grub-group-project.onrender.com/api/items/${lat}/${long}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     })
     .then(({ data }) => {
       return data.items;

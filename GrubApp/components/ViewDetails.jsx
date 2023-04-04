@@ -1,6 +1,7 @@
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import React, { useState, useContext } from "react";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export const ViewDetails = ({ navigation, route }) => {
   const { user } = useContext(UserContext);
@@ -19,8 +20,19 @@ export const ViewDetails = ({ navigation, route }) => {
           ? "This item is available!"
           : "This item has been reserved"}
       </Text>
+      <TouchableOpacity style={styles.returnBtn}onPress={() => navigation.goBack()}> 
+      <Text style={{color: "white", textAlign: "center"}}>Previous page</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  returnBtn: {
+    top: 10,
+    backgroundColor:"#680A20",
+    width: 170,
+    borderRadius: 15,
+    padding: 5
+  }
+});

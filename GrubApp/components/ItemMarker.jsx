@@ -4,13 +4,14 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { Svg, Image as ImageSvg } from "react-native-svg";
 
-export const ItemMarker = ({ item }) => {
+export const ItemMarker = ({ item, navigation }) => {
   const { user } = useContext(UserContext);
   
   return (
     <View>
       <Marker
         title={item.name}
+        onCalloutPress={() => navigation.navigate("ViewDetails", {item})} 
         coordinate={{
           latitude: item.location.coordinates[1],
           longitude: item.location.coordinates[0],
@@ -29,10 +30,9 @@ export const ItemMarker = ({ item }) => {
               
               <View style={styles.textContainer}>
                 <Text style={styles.itemName}>Item: {item.name}</Text>
-                <Text style={styles.itemDescription}>Description: {item.description}</Text>
-                <Text style={styles.itemContact}>contact: {user.user.contact}</Text>
+                <Text style={styles.itemCategory}>Category: {item.category.name}</Text>
+                <Text style={styles.itemContact}>contact: {item.user.contact}</Text>
               </View>
-          
           </View>
           </Callout>
       </Marker>
@@ -45,28 +45,28 @@ const styles = StyleSheet.create({
   width: 180,
   flexDirection: "column",
   alignSelf: "flex-start",
-  backgroundColor: "#c9ffe5",
+  backgroundColor: "#FFFFFF",
   borderRadius: 6,
   borderColor: "black",
-  borderWidth: 0.7,
+  borderWidth: 0.5,
   padding: 10,
  },
  textContainer: {
   
  },
  itemName: {
-  borderColor: "black",
+  borderColor: "#680A20",
   borderBottomWidth: 0.5,
   marginBottom: 3,
   marginTop: 2, 
   paddingBottom: 1,
  },
- itemDescription: {
-  borderColor: "black",
+ itemCategory: {
+  borderColor: "#680A20",
   borderBottomWidth: 0.5,
   marginBottom: 3,
   marginTop: 2, 
-  paddingBottom: 1,
+  paddingBottom: 3,
  },
  itemContact: {
   marginBottom: 5,
