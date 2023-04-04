@@ -37,8 +37,6 @@ export const getUser = (user) => {
     });
 };
 
-
-
 export const fetchLocalItems = (token, lat, long) => {
   
   return axios
