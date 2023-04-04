@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: "#def9ef",
   },
   itemCard: {
     flex: 1,

@@ -1,4 +1,11 @@
-import { View, StyleSheet, Button, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Text,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 
 export const BottomBar = ({ page, setPage, totalItems }) => {
   const numPages = Math.floor(totalItems / 10);
@@ -9,21 +16,41 @@ export const BottomBar = ({ page, setPage, totalItems }) => {
   };
   return (
     <View style={styles.container}>
-      <Button
+      {/* <Button
         title="<---"
+        
+        disabled={page === 0}
+        onPress={() => changePage(-1)}
+      /> */}
+      <TouchableOpacity
         style={styles.button}
         disabled={page === 0}
         onPress={() => changePage(-1)}
-      />
+      >
+        <Image
+          style={styles.image}
+          source={require("../assets/leftArrow.png")}
+        ></Image>
+      </TouchableOpacity>
       <Text>
         Page {page + 1} / {numPages + 1}
       </Text>
-      <Button
+      {/* <Button
         title="--->"
+        
+        disabled={page === numPages}
+        onPress={() => changePage(1)}
+      /> */}
+      <TouchableOpacity
         style={styles.button}
         disabled={page === numPages}
         onPress={() => changePage(1)}
-      />
+      >
+        <Image
+          style={styles.image}
+          source={require("../assets/rightArrow.png")}
+        ></Image>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -31,7 +58,7 @@ export const BottomBar = ({ page, setPage, totalItems }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     height: 40,
     width: "100%",
     alignItems: "center",
@@ -46,4 +73,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {},
+  image: {
+    maxHeight: 20,
+    maxWidth: 20,
+  },
 });

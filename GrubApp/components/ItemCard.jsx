@@ -39,14 +39,26 @@ export const ItemCard = ({ item, background, home }) => {
 
 const styles = StyleSheet.create({
   container1: {
+    margin: 10,
+    borderRadius: 10,
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   container2: {
+    margin: 10,
+    borderRadius: 10,
     flexDirection: "row",
-    backgroundColor: "#D7EEFC",
+    backgroundColor: "white",
     flex: 1,
     alignItems: "center",
     shadowColor: "#000",

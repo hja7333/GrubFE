@@ -253,23 +253,23 @@ export const ListItem = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#def9ef",
     alignItems: "center",
     justifyContent: "center",
   },
   inputView: {
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     borderRadius: 30,
     width: "70%",
     height: 45,
     marginBottom: 25,
     alignItems: "center",
-    borderColor: "#94d2a9",
+    borderColor: "#ECC763",
     borderStyle: "solid",
     borderWidth: 3,
   },
   inputViewVal: {
-    backgroundColor: "#94d2a9",
+    backgroundColor: "#ECC763",
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   },
   quantityButton: {
     borderRadius: 40,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     width: 50,
     height: 45,
     alignItems: "center",
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   submitButton: {
     borderRadius: 20,
     marginBottom: 40,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     width: 150,
     height: 45,
     alignItems: "center",
@@ -333,12 +333,12 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderWidth: 3,
     borderStyle: "solid",
-    borderColor: "#334bd6",
+    borderColor: "#680A20",
     alignItems: "center",
     justifyContent: "center",
   },
   pictureText: {
-    color: "#334bd6",
+    color: "#680A20",
   },
   itemPicture: {
     flex: 1,
