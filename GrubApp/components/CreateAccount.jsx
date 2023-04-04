@@ -28,7 +28,6 @@ const AccountCreationSchema = Yup.object().shape({
 });
 
 export const CreateAccount = (props) => {
-  // const [newUserMessage, setNewUserMessage] = useState("");
   const [isCreated, setIsCreated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   return (
@@ -64,9 +63,7 @@ export const CreateAccount = (props) => {
             })
             .then((newUser) => {
               setIsLoading(false);
-              // setNewUserMessage(
-              //   `Welcome to Grub ${newUser.username}!\nYour account has been created`
-              // );
+    
               setIsCreated(true);
               props.navigation.navigate("AccountConfirmed", {newUser})
             })
