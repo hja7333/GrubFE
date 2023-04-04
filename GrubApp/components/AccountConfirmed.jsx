@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginBottom: 10,
     marginTop: 30,
-    backgroundColor: "#334bd6",
+    backgroundColor: "#680A20",
     width: 150,
     height: 40,
     alignItems: "center",
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 18,
-    color: "#334bd6",
+    color: "#680A20",
     //#680A20
     textAlign: "center",
     fontWeight: "bold",
