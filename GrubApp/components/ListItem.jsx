@@ -6,8 +6,10 @@ import {
   Text,
   Switch,
   Image,
+  Pressable,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -31,6 +33,7 @@ export const ListItem = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [categoryIndex, setCategoryIndex] = useState("");
   const [image, setImage] = useState(null);
+  const [pickerVisible, setPickerVisible] = useState(false);
   const { user } = useContext(UserContext);
 
   const headers = { Authorization: `Bearer ${user.token}` };
@@ -59,9 +62,35 @@ export const ListItem = ({ navigation }) => {
     }
   };
 
+  async function pickPhoto() {
+    ImagePicker.getMediaLibraryPermissionsAsync()
+      .then(({ granted }) => {
+        if (!granted) {
+          return ImagePicker.requestMediaLibraryPermissionsAsync();
+        } else {
+          return { granted };
+        }
+      })
+      .then(({ granted }) => {
+        if (!granted) {
+          alert("Grub needs your permission before you can select a photo");
+        } else {
+          return ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+          });
+        }
+      })
+      .then(({ assets }) => {
+        if (assets) {
+          setImage(assets[0]);
+        }
+      });
+  }
+
   async function takePhoto() {
     let permissionResult = await ImagePicker.getCameraPermissionsAsync();
-    if (permissionResult.status !== "granted") {
+    if (!permissionResult.granted) {
       permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     }
     if (permissionResult.status !== "granted") {
@@ -132,10 +161,38 @@ export const ListItem = ({ navigation }) => {
         errors,
       }) => (
         <ScrollView contentContainerStyle={styles.container}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={pickerVisible}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.button]}
+                  onPress={() => {
+                    setPickerVisible(false);
+                    takePhoto();
+                  }}
+                >
+                  <Text style={styles.textStyle}>Camera</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.button]}
+                  onPress={() => {
+                    setPickerVisible(false);
+                    pickPhoto();
+                  }}
+                >
+                  <Text style={styles.textStyle}>Library</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
           <TouchableOpacity
             style={styles.pictureViewer}
             disabled={postingItem}
-            onPress={takePhoto}
+            onPress={() => setPickerVisible(true)}
           >
             {image ? (
               <Image style={styles.itemPicture} source={image} />
@@ -350,5 +407,38 @@ const styles = StyleSheet.create({
   },
   selectorStyle: {
     width: "70%",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "#2196F3",
+    margin: 10,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
