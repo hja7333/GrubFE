@@ -7,8 +7,9 @@ import { MapView } from "./components/MapView";
 import { NavBar } from "./components/NavBar";
 import { ViewItems } from "./components/ViewItems";
 import { CreateAccount } from "./components/CreateAccount";
+import { ViewDetails } from "./components/ViewDetails";
 import { UserProvider } from "./contexts/UserContext";
-import React, { useEffect } from "react";
+import React from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ export default function App() {
           <Stack.Screen name="MapView" component={MapView} />
           <Stack.Screen name="ListItem" component={ListItem} />
           <Stack.Screen name="ViewItems" component={ViewItems} />
+          <Stack.Screen name="ViewDetails" component={ViewDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
