@@ -268,7 +268,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: "bold",
   },
-  itemDescription: {},
+  itemDescription: {
+    textAlign:"center",
+    maxWidth: "80%",
+  },
   reservationView: {
     marginTop: 10,
     marginHorizontal: 5,

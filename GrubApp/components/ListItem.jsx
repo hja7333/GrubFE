@@ -124,7 +124,7 @@ export const ListItem = ({ navigation }) => {
     const newItem = { ...values };
     newItem.quantity = quantity;
     newItem.category = categoryIndex;
-    newItem.username = user.user.username;
+    newItem.user = user.user.username;
     newItem.expiry_date = new Date(newItem.expiry_date);
     cloudinaryUpload().then((image_url) => {
       newItem.image_url = image_url;

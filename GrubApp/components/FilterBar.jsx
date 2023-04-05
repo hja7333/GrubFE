@@ -64,6 +64,7 @@ export const FilterBar = ({ setRange, setLocation }) => {
       </TouchableOpacity>
       <Dropdown
         data={distItems}
+        placeholder="Select a distance"
         labelField="label"
         valueField="value"
         onChange={(value) => setRange(value.value)}
