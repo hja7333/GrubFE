@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     position: "absolute",
-    bottom: 220,
+    bottom: 300,
     fontSize: 25,
     color: "#9C0444",
     textAlign: "center",

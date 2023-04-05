@@ -127,7 +127,7 @@ export const ListItem = ({ navigation }) => {
     newItem.user = user.user.username;
     newItem.expiry_date = new Date(newItem.expiry_date);
     cloudinaryUpload().then((image_url) => {
-      newItem.image_url = image_url;
+      newItem.item_url = image_url;
       return axios
         .post("https://grub-group-project.onrender.com/api/items", newItem, {
           headers,
