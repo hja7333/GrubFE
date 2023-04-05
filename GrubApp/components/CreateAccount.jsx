@@ -206,10 +206,10 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   createBtn: {
-    top: 20,
+    top: 5,
     borderRadius: 20,
-    marginBottom: 40,
-    backgroundColor: "#9c0444",
+   marginBottom: 50,
+    backgroundColor: "#680A20",
     width: 150,
     height: 40,
     alignItems: "center",

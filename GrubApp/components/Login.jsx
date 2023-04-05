@@ -100,11 +100,9 @@ export const Login = ({ navigation, route}) => {
         disabled={checkingCredentials}
         onPress={() => navigation.navigate("CreateAccount")}
       >
-        {checkingCredentials ? (
-          <ActivityIndicator />
-        ) : (
+        
           <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
-        )}
+        
       </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
