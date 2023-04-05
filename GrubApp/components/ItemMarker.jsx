@@ -4,17 +4,22 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import { Svg, Image as ImageSvg } from "react-native-svg";
 
-export const ItemMarker = ({ item, navigation }) => {
+export const ItemMarker = ({ item, navigation, setIsModalVisible, setSelectedItem, selectedItem }) => {
   const { user } = useContext(UserContext);
 
   return (
     <View>
       <Marker
         title={item.name}
-        onCalloutPress={() => navigation.navigate("ViewDetails", {item})} 
+        // onCalloutPress={() => navigation.navigate("ViewDetails", { id: item._id })} 
+        pinColor={selectedItem.name === item.name ? "gold" : "#9c0444"}
         coordinate={{
           latitude: item.location.coordinates[1],
           longitude: item.location.coordinates[0],
+        }}
+        onPress={() => {
+          setSelectedItem(item)
+          setIsModalVisible(true)
         }}
       >
         <Callout tooltip>
@@ -30,19 +35,14 @@ export const ItemMarker = ({ item, navigation }) => {
 
             <View style={styles.textContainer}>
               <Text style={styles.itemName}>
-                {" "}
+                
                 <Text style={styles.wordBold}>Item: </Text>
                 {item.name}
               </Text>
               <Text style={styles.itemDescription}>
-                {" "}
+               
                 <Text style={styles.wordBold}>Category: </Text>
                 {item.category.name}
-              </Text>
-              <Text style={styles.itemContact}>
-                {" "}
-                <Text style={styles.wordBold}>Contact: </Text>
-                {user.user.contact}
               </Text>
             </View>
 
@@ -56,7 +56,6 @@ export const ItemMarker = ({ item, navigation }) => {
 const styles = StyleSheet.create({
   bubble: {
     width: 180,
-
     flexDirection: "column",
     alignSelf: "flex-start",
     backgroundColor: "#def9ef",

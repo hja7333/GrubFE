@@ -8,12 +8,14 @@ import {
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { fetchLocalItems, getLocationDetails } from "../api";
 import { ItemMarker } from "./ItemMarker";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
 const { GOOGLE_API_KEY } = require("../googleMapsAPIkey");
+import Modal from "react-native-modal";
+import { Svg, Image as ImageSvg } from "react-native-svg";
 
 export const MapScreen = ({ navigation }) => {
   const { user } = useContext(UserContext);
@@ -23,13 +25,18 @@ export const MapScreen = ({ navigation }) => {
     latitudeDelta: 0.03,
     longitudeDelta: 0.06,
   });
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [items, setItems] = useState([]);
- 
+  const [selectedItem, setSelectedItem] = useState({})
+
 
   AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
     console.log(user)
   );
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   const handleUserLocation = () => {
     Location.requestForegroundPermissionsAsync()
@@ -46,7 +53,6 @@ export const MapScreen = ({ navigation }) => {
       })
       .catch((err) => console.log(err));
   };
-
 
   useEffect(() => {
     fetchLocalItems(user.token, region.latitude, region.longitude)
@@ -67,15 +73,25 @@ export const MapScreen = ({ navigation }) => {
           provider={PROVIDER_GOOGLE}
           zoomControlEnabled={true}
           zoomEnabled={true}
-
           moveOnMarkerPress={false}
           onRegionChangeComplete={(selectedRegion) => {
             setRegion(selectedRegion);
           }}
           style={styles.map}>
-          { items.length > 0 ? items.map((item) => {
-            return <ItemMarker key={item._id} item={item} navigation={navigation}/>;
-          }) : null }
+          {items.length > 0
+            ? items.map((item) => {
+                return (
+                  <ItemMarker
+                    key={item._id}
+                    item={item}
+                    navigation={navigation}
+                    setIsModalVisible={setIsModalVisible}
+                    selectedItem={selectedItem}
+                    setSelectedItem={setSelectedItem}
+                  />
+                );
+              })
+            : null}
         </MapView>
         <View style={styles.searchContainer}>
           <GooglePlacesAutocomplete
@@ -100,13 +116,43 @@ export const MapScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               style={styles.userLocationBtn}
-
               onPress={handleUserLocation}>
-              <Text style={{ position: "absolute", color:"#fff", fontSize: 12 }}>
+              <Text
+                style={{ position: "absolute", color: "#fff", fontSize: 12 }}>
                 Current location
               </Text>
             </TouchableOpacity>
           </View>
+          <Modal
+            isVisible={isModalVisible}
+            hasBackdrop={true}
+            backdropOpacity={0}
+            onBackdropPress={toggleModal}
+            swipeDirection="down"
+            onSwipeComplete={toggleModal}
+            style={{ justifyContent: "flex-end" }}
+            propagateSwipe>
+            <View style={styles.modalContent}>
+            <Svg width={150} height={100}>
+              <ImageSvg
+                width={"100%"}
+                height={"100%"}
+                preserveAspectRatio="xMidYMid slice"
+                href={{ uri: selectedItem.item_url }}
+              />
+            </Svg>
+            <View style={styles.modalText}>
+              <Text><Text style={styles.wordBold}>Item: </Text> {selectedItem.name}</Text>
+              <Text><Text style={styles.wordBold}>Category: </Text> {isModalVisible ? selectedItem.category.name : null}</Text>
+              <Text numberOfLines={2}>{selectedItem.description}</Text> 
+              <Text><Text style={styles.wordBold}>Expires on:</Text></Text>
+              <TouchableOpacity onPress={() => navigation.navigate("ViewDetails", { id: selectedItem._id })}> 
+              <Text numberOfLines={1} style={{color: "#9c0444", fontWeight: "bold", top: 5}}>See full item details</Text>
+              
+              </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
         <StatusBar style="auto" />
       </View>
@@ -114,19 +160,12 @@ export const MapScreen = ({ navigation }) => {
   );
 };
 const styles = StyleSheet.create({
-  // mapContainer: {
-  //   width: "100%",
-  //   height: "85%",
-  //   zIndex: 2
-  // },
   map: {
     width: "100%",
     height: "100%",
-    // flex:1
   },
   searchContainer: {
     position: "absolute",
-
 
     top: 5,
     width: "97%",
@@ -151,4 +190,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  modalContent: {
+    flexDirection: "row",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "#def9ef",
+    // height: 150,
+  },
+  wordBold: {
+    fontWeight: "bold",
+    color: "black",
+  },
+  modalText: {
+    marginHorizontal: 5,
+    flexDirection: "column",
+    flexShrink: 1
+  }
 });
