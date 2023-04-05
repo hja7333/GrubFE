@@ -34,7 +34,7 @@ export const ViewItems = ({ navigation }) => {
         setTotalItems(total_items);
         setItemsLoading(false);
       })
-      .catch((err) => console.log(err, "<---axios error"));
+      .catch((err) => navigation.navigate("Login"));
   }, [page, range, location, focus]);
 
   return (
@@ -61,7 +61,7 @@ export const ViewItems = ({ navigation }) => {
             );
           })
         )}
-      </ScrollView> 
+      </ScrollView>
       <BottomBar page={page} setPage={setPage} totalItems={totalItems} />
     </View>
   );
@@ -96,5 +96,4 @@ const styles = StyleSheet.create({
   filterBar: {
     width: "100%",
   },
- 
 });

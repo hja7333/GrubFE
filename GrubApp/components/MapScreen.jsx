@@ -29,12 +29,6 @@ export const MapScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({})
 
-  AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
-    console.log(user)
-  );
-
-
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -61,7 +55,6 @@ export const MapScreen = ({ navigation }) => {
         setItems(itemsResponse);
       })
       .catch((err) => {
-        console.log(err);
         navigation.navigate("Login");
       });
   }, [region, user]);
@@ -79,6 +72,7 @@ export const MapScreen = ({ navigation }) => {
             setRegion(selectedRegion);
           }}
           style={styles.map}>
+
           {items.length > 0
             ? items.map((item) => {
                 return (

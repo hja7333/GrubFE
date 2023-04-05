@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Login } from "./components/Login";
 import { ListItem } from "./components/ListItem";
 import { MapScreen } from "./components/MapScreen";
-import { MapView } from "./components/MapView";
 import { NavBar } from "./components/NavBar";
 import { ViewItems } from "./components/ViewItems";
 import { CreateAccount } from "./components/CreateAccount";
@@ -28,14 +27,13 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="AccountConfirmed" component={AccountConfirmed}/>
+          <Stack.Screen name="AccountConfirmed" component={AccountConfirmed} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen
             name="CreateAccount"
             component={CreateAccount}
             options={{ animation: "slide_from_bottom" }}
           />
-          <Stack.Screen name="MapView" component={MapView} />
           <Stack.Screen name="ListItem" component={ListItem} />
           <Stack.Screen name="ViewItems" component={ViewItems} />
           <Stack.Screen name="ViewDetails" component={ViewDetails} />

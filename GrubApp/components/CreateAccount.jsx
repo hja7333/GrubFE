@@ -71,7 +71,6 @@ export const CreateAccount = (props) => {
               })
               .then((newUser) => {
                 setIsLoading(false);
-
                 setIsCreated(true);
                 props.navigation.navigate("AccountConfirmed", { newUser });
               })
