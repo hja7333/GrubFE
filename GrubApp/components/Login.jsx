@@ -46,7 +46,6 @@ export const Login = ({ navigation, route}) => {
     <ScrollView>
     <View style={styles.container}>
       <View>
-        <Text style={styles.header}>Welcome to Grub!</Text>
         <Image
           source={require("../assets/logo_transparent.png")}
           style={styles.logoImage}
@@ -96,13 +95,17 @@ export const Login = ({ navigation, route}) => {
       </TouchableOpacity>
 
       <View>
-        <Button
-          style={styles.createAccount}
-          color="#680A20"
-          title="Create Account"
-          disabled={checkingCredentials}
-          onPress={() => navigation.navigate("CreateAccount")}
-        ></Button>
+      <TouchableOpacity
+        style={styles.createAccount}
+        disabled={checkingCredentials}
+        onPress={() => navigation.navigate("CreateAccount")}
+      >
+        {checkingCredentials ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
+        )}
+      </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>
@@ -116,20 +119,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
-    color: "#680A20",
-    fontWeight: "bold",
-    fontSize: 35,
-
-    marginBottom: 40,
-    marginTop: 10,
-  },
   inputView: {
     backgroundColor: "#ECC763",
     borderRadius: 20,
     width: "70%",
     height: 45,
-    marginBottom: 35,
+    bottom: 70,
+    marginBottom: 40,
     alignItems: "center",
   },
   TextInput: {
@@ -148,17 +144,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 20,
-
+    bottom: 85,
     marginBottom: 40,
     backgroundColor: "#680A20",
-    width: 100,
+    width: 150,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
   },
   createAccount: {
-    borderRadius: 20,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -167,14 +161,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginTop: 30,
+    borderRadius: 20,
+    bottom: 90,
+    marginBottom: 40,
+    backgroundColor: "#680A20",
+    width: 150,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
   },
   logoImage: {
-    justifyContent: "center",
     alignItems: "center",
-
-    height: 300,
-    width: 300,
+    height: 450,
+    width: 450,
   },
   authFail: {
     color: "#f00",

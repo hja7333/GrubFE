@@ -10,14 +10,14 @@ export const AccountConfirmed = ({ route, navigation }) => {
         style={styles.logoImage}
       />
       <Text style={styles.welcomeText}>
-        {`Welcome to Grub ${newUser.username}!\nYour account has been created`}
+        {`Welcome to Grub, ${newUser.username}!\nYour account has been created`}
       </Text>
       <TouchableOpacity
         color="#680A20"
         style={styles.createBtn}
         onPress={() => navigation.navigate("Login")}
       >
-        <Text style={{ color: "#fff", fontSize: 17 }}>Log in now!</Text>
+        <Text style={{ color: "#fff", fontSize: 17 }}>Log in now</Text>
       </TouchableOpacity>
     </View>
   );
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e6fdf4",
     alignItems: "center",
     justifyContent: "flex-start",
   },
@@ -42,12 +42,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoImage: {
-    width: 300,
-    height: 300,
+    width: 500,
+    height: 500,
   },
   welcomeText: {
-    fontSize: 18,
-    color: "#680A20",
+    position: "absolute",
+    bottom: 220,
+    fontSize: 25,
+    color: "#9C0444",
     textAlign: "center",
     fontWeight: "bold",
     margin: 1,
