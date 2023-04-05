@@ -41,72 +41,69 @@ export const Login = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView>
-    <View style={styles.container}>
-      <View>
-        <Image
-          source={require("../assets/logo_transparent.png")}
-          style={styles.logoImage}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          editable={!checkingCredentials}
-          selectTextOnFocus={!checkingCredentials}
-          placeholder="Username..."
-          //         {routeparams ?
-          //   setNewUsername(route.params.newUsername) : null
-          // }
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        <View>
+          <Image
+            source={require("../assets/logo_transparent.png")}
+            style={styles.logoImage}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            editable={!checkingCredentials}
+            selectTextOnFocus={!checkingCredentials}
+            placeholder="Username..."
+            //         {routeparams ?
+            //   setNewUsername(route.params.newUsername) : null
+            // }
 
-  onChangeText={(username) => {
-            setUsername(username);
-          }}
-        >
-        </TextInput>
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          editable={!checkingCredentials}
-          selectTextOnFocus={!checkingCredentials}
-          placeholder="Password..."
-          secureTextEntry={true}
-          onChangeText={(password) => {
-            setPassword(password);
-          }}
-        ></TextInput>
-      </View>
-      {authError ? (
-        <Text style={styles.authFail}>Authentication Failed!</Text>
-      ) : (
-        <Text style={styles.authFail}></Text>
-      )}
-      <TouchableOpacity
-        style={styles.loginButton}
-        disabled={checkingCredentials}
-        onPress={login}
-      >
-        {checkingCredentials ? (
-          <ActivityIndicator />
+            onChangeText={(username) => {
+              setUsername(username);
+            }}
+          ></TextInput>
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            editable={!checkingCredentials}
+            selectTextOnFocus={!checkingCredentials}
+            placeholder="Password..."
+            secureTextEntry={true}
+            onChangeText={(password) => {
+              setPassword(password);
+            }}
+          ></TextInput>
+        </View>
+        {authError ? (
+          <Text style={styles.authFail}>Authentication Failed!</Text>
         ) : (
-          <Text style={{ color: "#fff", fontSize: 17 }}>Login</Text>
+          <Text style={styles.authFail}></Text>
         )}
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.loginButton}
+          disabled={checkingCredentials}
+          onPress={login}
+        >
+          {checkingCredentials ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={{ color: "#fff", fontSize: 17 }}>Login</Text>
+          )}
+        </TouchableOpacity>
 
-      <View>
-      <TouchableOpacity
-        style={styles.createAccount}
-        disabled={checkingCredentials}
-        onPress={() => navigation.navigate("CreateAccount")}
-      >
-        
-          <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
-        
-      </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            style={styles.createAccount}
+            disabled={checkingCredentials}
+            onPress={() => navigation.navigate("CreateAccount")}
+          >
+            <Text style={{ color: "#fff", fontSize: 17 }}>Create account</Text>
+          </TouchableOpacity>
+        </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
     </ScrollView>
   );
 };
