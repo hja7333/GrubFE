@@ -35,7 +35,10 @@ export const ViewDetails = ({ navigation, route }) => {
         }
         setLoadingDetails(false);
       })
-      .catch((err) => navigation.navigate("Login"));
+      .catch((err) => {
+        console.log(err)
+        navigation.navigate("Login")
+    });
   }, [toggleReload]);
 
   const deleteItem = () => {
@@ -207,4 +210,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 
   },
-});
+}});

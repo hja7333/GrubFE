@@ -7,6 +7,7 @@ import {
   Button,
   Text,
   TextInput,
+  ScrollView,
   View,
   StatusBar,
   TouchableOpacity,
@@ -47,6 +48,7 @@ export const Login = ({ navigation, route}) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View>
         <Text style={styles.header}>Welcome to Grub!</Text>
@@ -113,6 +115,7 @@ export const Login = ({ navigation, route}) => {
       </View>
       <StatusBar style="auto" />
     </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({

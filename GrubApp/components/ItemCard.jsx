@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
   },
-  textBox: {
+    textBox: {
     height: "100%",
     flex: 1,
     flexDirection: "column",
