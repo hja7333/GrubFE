@@ -36,7 +36,7 @@ export const ItemCard = ({
           ? styles.container2yours
           : styles.container2
       }
-      onPress={() => navigation.navigate("ViewDetails", { item })}
+      onPress={() => navigation.navigate("ViewDetails", { id: item._id })}
     >
       <Image
         source={{ uri: item.item_url, width: 100, height: 100 }}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
   },
-  textBox: {
+    textBox: {
     height: "100%",
     flex: 1,
     flexDirection: "column",
