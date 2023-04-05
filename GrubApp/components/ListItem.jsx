@@ -136,8 +136,8 @@ export const ListItem = ({ navigation }) => {
           setPostingItem(false);
         })
         .catch((err) => {
-          console.log(err);
           setPostingItem(false);
+          navigation.navigate("Login");
         });
     });
   };

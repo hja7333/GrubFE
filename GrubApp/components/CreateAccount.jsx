@@ -68,7 +68,6 @@ export const CreateAccount = (props) => {
               props.navigation.navigate("AccountConfirmed", { newUser });
             })
             .catch((err) => {
-              console.log(err);
               setIsCreated(false);
             });
         }}

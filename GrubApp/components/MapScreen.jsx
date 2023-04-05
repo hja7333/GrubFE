@@ -25,11 +25,6 @@ export const MapScreen = ({ navigation }) => {
   });
 
   const [items, setItems] = useState([]);
- 
-
-  AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
-    console.log(user)
-  );
 
   const handleUserLocation = () => {
     Location.requestForegroundPermissionsAsync()
@@ -47,14 +42,12 @@ export const MapScreen = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
 
-
   useEffect(() => {
     fetchLocalItems(user.token, region.latitude, region.longitude)
       .then((itemsResponse) => {
         setItems(itemsResponse);
       })
       .catch((err) => {
-        console.log(err);
         navigation.navigate("Login");
       });
   }, [region, user]);
@@ -67,15 +60,23 @@ export const MapScreen = ({ navigation }) => {
           provider={PROVIDER_GOOGLE}
           zoomControlEnabled={true}
           zoomEnabled={true}
-
           moveOnMarkerPress={false}
           onRegionChangeComplete={(selectedRegion) => {
             setRegion(selectedRegion);
           }}
-          style={styles.map}>
-          { items.length > 0 ? items.map((item) => {
-            return <ItemMarker key={item._id} item={item} navigation={navigation}/>;
-          }) : null }
+          style={styles.map}
+        >
+          {items.length > 0
+            ? items.map((item) => {
+                return (
+                  <ItemMarker
+                    key={item._id}
+                    item={item}
+                    navigation={navigation}
+                  />
+                );
+              })
+            : null}
         </MapView>
         <View style={styles.searchContainer}>
           <GooglePlacesAutocomplete
@@ -100,9 +101,11 @@ export const MapScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               style={styles.userLocationBtn}
-
-              onPress={handleUserLocation}>
-              <Text style={{ position: "absolute", color:"#fff", fontSize: 12 }}>
+              onPress={handleUserLocation}
+            >
+              <Text
+                style={{ position: "absolute", color: "#fff", fontSize: 12 }}
+              >
                 Current location
               </Text>
             </TouchableOpacity>
@@ -126,7 +129,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     position: "absolute",
-
 
     top: 5,
     width: "97%",
