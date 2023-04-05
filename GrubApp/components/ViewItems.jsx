@@ -24,7 +24,7 @@ export const ViewItems = ({ navigation }) => {
     setItemsLoading(true);
     axios
       .get(
-        `https://grub-group-project.onrender.com/api/items/${user.user.location.coordinates[1]}/${user.user.location.coordinates[0]}?page=${page}&limit=10&range=${range}`,
+        `https://grub-group-project.onrender.com/api/items/${location[1]}/${location[0]}?page=${page}&limit=10&range=${range}`,
         {
           headers,
         }
