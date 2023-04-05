@@ -8,15 +8,11 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
-  FlatList,
 } from "react-native";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
-import { AccountConfirmed } from "./AccountConfirmed";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 const { getLocationDetails, createUser } = require("../api");
-const { GOOGLE_API_KEY } = require("../googleMapsAPIkey");
 
 const AccountCreationSchema = Yup.object().shape({
   username: Yup.string().required("Username is required!"),
@@ -80,7 +76,7 @@ export const CreateAccount = (props) => {
                 setIsCreated(false);
               });
           }}>
-          {({ handleChange, handleSubmit, values, errors, setFieldValue }) => (
+          {({ handleChange, handleSubmit, values, errors }) => (
             <View style={styles.container}>
               
               <Image
