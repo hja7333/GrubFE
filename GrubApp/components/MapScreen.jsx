@@ -29,10 +29,11 @@ export const MapScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState({})
 
-
   AsyncStorage.getItem("GRUB_APP::USER_DETAILS").then((user) =>
     console.log(user)
   );
+
+
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -145,7 +146,7 @@ export const MapScreen = ({ navigation }) => {
               <Text><Text style={styles.wordBold}>Item: </Text> {selectedItem.name}</Text>
               <Text><Text style={styles.wordBold}>Category: </Text> {isModalVisible ? selectedItem.category.name : null}</Text>
               <Text numberOfLines={2}>{selectedItem.description}</Text> 
-              <Text><Text style={styles.wordBold}>Expires on:</Text></Text>
+              <Text><Text style={styles.wordBold}>Expires on:</Text> {new Date(selectedItem.expiry_date).toDateString()}</Text>
               <TouchableOpacity onPress={() => navigation.navigate("ViewDetails", { id: selectedItem._id })}> 
               <Text numberOfLines={1} style={{color: "#9c0444", fontWeight: "bold", top: 5}}>See full item details</Text>
               
@@ -194,8 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 20,
     borderRadius: 20,
-    backgroundColor: "#def9ef",
-    // height: 150,
+    backgroundColor: "#e6fdf4",
   },
   wordBold: {
     fontWeight: "bold",
