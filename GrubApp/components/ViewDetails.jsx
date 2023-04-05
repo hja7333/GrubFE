@@ -43,7 +43,9 @@ export const ViewDetails = ({ navigation, route }) => {
         }
         setLoadingDetails(false);
       })
-      .catch((err) => navigation.navigate("Login"));
+      .catch((err) => {
+        navigation.navigate("Login")
+    });
   }, []);
 
   const deleteItem = () => {
@@ -289,4 +291,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 20,
   },
-});
+}});

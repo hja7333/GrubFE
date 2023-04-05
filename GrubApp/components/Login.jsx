@@ -7,6 +7,7 @@ import {
   Button,
   Text,
   TextInput,
+  ScrollView,
   View,
   StatusBar,
   TouchableOpacity,
@@ -40,6 +41,7 @@ export const Login = ({ navigation, route }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View>
         <Text style={styles.header}>Welcome to Grub!</Text>
@@ -58,11 +60,10 @@ export const Login = ({ navigation, route }) => {
           //   setNewUsername(route.params.newUsername) : null
           // }
 
-          onChangeText={(username) => {
+  onChangeText={(username) => {
             setUsername(username);
           }}
         >
-          {/* <Text>{newUsername}</Text> */}
         </TextInput>
       </View>
       <View style={styles.inputView}>
@@ -105,6 +106,7 @@ export const Login = ({ navigation, route }) => {
       </View>
       <StatusBar style="auto" />
     </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
