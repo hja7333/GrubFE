@@ -37,7 +37,7 @@ export const CreateAccount = (props) => {
   return (
     <SafeAreaView>
       
-    <ScrollView style={{ backgroundColor: "white", flexDirection: "column" }}
+    <ScrollView style={{ backgroundColor: "#e6fdf4", flexDirection: "column" }}
    nestedScrollEnabled={true}
    contentContainerStyle={{ flexGrow: 1 }}>   
         <Formik
@@ -70,7 +70,6 @@ export const CreateAccount = (props) => {
                 return createUser(newUser);
               })
               .then((newUser) => {
-                console.log(newUser, "<<<< newUser")
                 setIsLoading(false);
 
                 setIsCreated(true);
@@ -122,12 +121,18 @@ export const CreateAccount = (props) => {
               {errors.confirmPassword ? (
                 <Text style={styles.errorText}>{errors.confirmPassword}</Text>
               ) : null}
-              {/* <TextInput
+              
+              <TextInput
               style={errors.location ? styles.inputViewErr : styles.inputView}
               value={values.location}
-              placeholder="address"
+              placeholder="Enter your postcode"
               onChangeText={handleChange("location")}
-            /> */}
+            /> 
+
+            {errors.location ? (
+                <View><Text style={styles.errorText}>{errors.location}</Text></View>
+              ) : null}
+
               <TextInput
                 style={errors.contact ? styles.inputViewErr : styles.inputView}
                 value={values.contact}
@@ -138,39 +143,7 @@ export const CreateAccount = (props) => {
               {errors.contact ? (
                 <Text style={styles.errorText}>{errors.contact}</Text>
               ) : null}
-              
-              
-              <View style={errors.contact ? styles.locationContainerErr : styles.locationContainer}>
-              <GooglePlacesAutocomplete
-                horizontal={true}
-                  placeholder="Location"
-                  onPress={(data, details = null) => {
-                    console.log(details, "<<this is details");
-                    console.log(data, "<<this is data");
-                    setFieldValue("location", data.description)
-                  }}
-                  query={{
-                    key: GOOGLE_API_KEY,
-                    language: "en",
-                  }}
-                  value={values.location}
-                  styles={{
-                    container: {
-                      flex: 1,
-                      width: "100%",
-                      paddingHorizontal: 6,
-                    },
-                    textInput: {
-                      backgroundColor: "#ECC763",
-                      fontSize: 16,
-                    },
-                  }}
-                />
-              </View>
-              {errors.location ? (
-                <View><Text style={styles.locationErrorText}>{errors.location}</Text></View>
-              ) : null}
-
+  
               <TouchableOpacity
                 style={styles.createBtn}
                 disabled={isLoading || isCreated}
@@ -195,7 +168,7 @@ export const CreateAccount = (props) => {
 const styles = StyleSheet.create({
   container: {
     top: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#e6fdf4",
     alignItems: "center",
     marginBottom: 40
   },
@@ -231,31 +204,10 @@ const styles = StyleSheet.create({
     marginBottom: 35,
     paddingLeft: 15,
   },
-  locationErrorText: {
-    color: "red",
-    fontStyle: "italic",
-  },
   errorText: {
-    // position: "absolute",
     bottom: 35,
     color: "red",
     fontStyle: "italic",
-    // marginTop: 0,
-    // marginBottom: 30,
-  },
-  locationContainer: {
-    backgroundColor: "#ECC763",
-    width: "70%",
-    borderColor: "#ECC763",
-    borderWidth: 4,
-    borderRadius: 20,
-  },
-  locationContainerErr: {
-    backgroundColor: "#ECC763",
-    width: "70%",
-    borderColor: "red",
-    borderWidth: 4,
-    borderRadius: 20,
   },
   createBtn: {
     top: 20,
