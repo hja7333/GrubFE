@@ -5,7 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 export const NavBar = ({ params }) => {
   const { navigation, route, options, back } = params;
   const { user, setUser } = useContext(UserContext);
-  const atLogin = route.name === "Login";
+  const atLogin = route.name === "Login" || route.name === "AccountConfirmed"
   const atSignUp = route.name === "CreateAccount";
   const atMapView = route.name === "MapScreen";
   const atListItem = route.name === "ListItem";
